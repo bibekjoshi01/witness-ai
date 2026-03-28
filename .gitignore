@@ -114,6 +114,9 @@ coverage/
 witness.db
 test.db
 
+# Uploaded media
+media/
+
 # Alembic artifacts
 alembic/versions/*.pyc
 

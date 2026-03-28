@@ -17,3 +17,5 @@ python-dotenv==1.0.1
 greenlet==3.0.3
 google-auth==2.29.0
 requests
+python-multipart==0.0.22
+email-validator==2.3.0

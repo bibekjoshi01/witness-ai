@@ -3,9 +3,9 @@ from app.schemas.journal import (
     JournalCreateIn,
     JournalOut,
     JournalListOut,
-    JournalCreateOut
+    JournalCreateOut,
 )
-from app.schemas.profile import UserProfileOut, UserProfileUpdate
+from app.schemas.profile import UserProfileOut, UserProfileUpdate, UserProfileUpdateOut
 
 __all__ = [
     "TokenResponse",
@@ -14,6 +14,7 @@ __all__ = [
     "JournalCreateIn",
     "JournalOut",
     "JournalCreateOut",
+    "UserProfileUpdateOut",
     "JournalListOut",
     "UserProfileOut",
     "UserProfileUpdate",

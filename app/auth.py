@@ -6,6 +6,7 @@ from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
 from jose import jwt, JWTError
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy import select
+from sqlalchemy.orm import selectinload
 from google.oauth2 import id_token
 from google.auth.transport import requests as google_requests
 from passlib.context import CryptContext
@@ -86,7 +87,9 @@ async def get_current_user(
         )
 
     result = await session.execute(
-        select(models.User).where(models.User.id == user_id_int)
+        select(models.User)
+        .options(selectinload(models.User.profile))
+        .where(models.User.id == user_id_int)
     )
     user = result.scalar_one_or_none()
     if user is None:
