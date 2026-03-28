@@ -11,6 +11,7 @@ from app.config import get_settings
 settings = get_settings()
 scheduler = AsyncIOScheduler(timezone=settings.app_timezone)
 
+
 async def run_daily_jobs():
     async with AsyncSessionLocal() as session:
         users = (await session.execute(select(models.User))).scalars().all()
@@ -18,16 +19,19 @@ async def run_daily_jobs():
             await questions.get_or_create_daily_questions(session)
             await micro_actions.generate_micro_action(session, user.id)
 
+
 async def run_weekly_jobs():
     async with AsyncSessionLocal() as session:
         users = (await session.execute(select(models.User))).scalars().all()
         for user in users:
             await weekly.generate_weekly_summary(session, user)
 
+
 async def run_post_reflection(user: models.User):
     async with AsyncSessionLocal() as session:
         await patterns.detect_patterns(session, user)
         await micro_actions.generate_micro_action(session, user.id)
+
 
 def start_scheduler():
     if not settings.scheduler_enabled:

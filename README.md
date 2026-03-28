@@ -1,6 +1,6 @@
 # Witness AI Backend
 
-FastAPI backend for structured mental health reflection, with anonymous device auth, rule-based pattern detection, optional LLM summaries, and APScheduler-driven routines.
+FastAPI backend for structured mental health reflection, with Google Sign-In auth, rule-based pattern detection, optional LLM summaries, and APScheduler-driven routines.
 
 ## Quick start (local)
 ```bash
@@ -16,7 +16,7 @@ docker-compose up --build
 ```
 
 ## Core Endpoints
-- `POST /auth/device` -> JWT for a `device_id`
+- `POST /auth/google` -> JWT from Google ID token
 - `GET /reflections/questions` -> daily questions
 - `POST /reflections` -> submit answers + mood
 - `GET /insights/latest` / `GET /insights/history`
@@ -35,3 +35,4 @@ pytest -q
 - DB: defaults to SQLite; set `DATABASE_URL` for Postgres.
 - LLM: set `LLM_PROVIDER`, `LLM_MODEL`, `LLM_API_KEY`; falls back to stub if missing.
 - Scheduler: enabled by `SCHEDULER_ENABLED`; runs daily/weekly cron inside app process.
+- Auth: set `GOOGLE_CLIENT_ID` for real Google verification. `GOOGLE_MOCK_MODE=true` (default) accepts any `id_token` string for local dev/tests; disable in production.

@@ -16,7 +16,7 @@ def setup_db():
 
 
 def auth_token():
-    resp = client.post("/auth/device", json={"device_id": "test-device"})
+    resp = client.post("/auth/google", json={"id_token": "test-google-user"})
     assert resp.status_code == 200
     return resp.json()["access_token"]
 
@@ -65,3 +65,27 @@ def test_ai_stub():
     assert resp.status_code == 200
     body = resp.json()
     assert "answer" in body
+
+
+def test_profile_flow():
+    token = auth_token()
+    headers = {"Authorization": f"Bearer {token}"}
+
+    # Fetch (auto-creates) profile
+    get_resp = client.get("/profile", headers=headers)
+    assert get_resp.status_code == 200
+
+    patch_resp = client.patch(
+        "/profile",
+        headers=headers,
+        json={
+            "name": "Test User",
+            "email": "test@example.com",
+            "hobbies": ["reading", "music"],
+            "mental_health_goal": "Reduce stress",
+        },
+    )
+    assert patch_resp.status_code == 200
+    body = patch_resp.json()
+    assert body["name"] == "Test User"
+    assert "reading" in body.get("hobbies", [])
