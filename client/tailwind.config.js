@@ -13,7 +13,8 @@ module.exports = {
         glow: '#C4B5FD',
       },
       fontFamily: {
-        display: ['"Inter"', 'system-ui', 'sans-serif'],
+        display: ['"Outfit"', 'system-ui', 'sans-serif'],
+        body: ['"Work Sans"', 'system-ui', 'sans-serif'],
       },
       backgroundImage: {
         'soft-gradient': 'radial-gradient(circle at 20% 20%, rgba(124,58,237,0.12), transparent 35%), radial-gradient(circle at 80% 0%, rgba(20,184,166,0.12), transparent 30%)',

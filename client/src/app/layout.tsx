@@ -3,7 +3,7 @@ import { Providers } from '@/components/Providers'
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: 'Witness AI — Gentle Reflection',
+  title: 'Witness AI - Gentle Reflection',
   description: 'Structured mental health reflection with gentle insights.',
 };
 
