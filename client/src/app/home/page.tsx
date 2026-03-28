@@ -1,11 +1,11 @@
-'use client';
-import { LayoutShell } from '../../components/LayoutShell';
-import { Protected } from '../../components/Protected';
-import { useSelector } from 'react-redux';
-import { RootState } from '../../lib/store';
+'use client'
+import { LayoutShell } from '@/components/LayoutShell'
+import { Protected } from '@/components/Protected'
+import { useSelector } from 'react-redux'
+import { RootState } from '@/lib/redux/store'
 
 export default function HomePage() {
-  const user = useSelector((s: RootState) => s.auth.user);
+  const profile = useSelector((s: RootState) => s.auth.profile)
   return (
     <Protected>
       <LayoutShell>
@@ -13,11 +13,11 @@ export default function HomePage() {
           <div className="flex items-center justify-between">
             <div>
               <p className="text-sm text-ink/60">Welcome back</p>
-              <h2 className="text-2xl font-semibold">{user?.name || 'Friend'}</h2>
+              <h2 className="text-2xl font-semibold">{profile?.name || 'Friend'}</h2>
             </div>
-            {user?.picture && (
+            {profile?.profile_picture && (
               <img
-                src={user.picture}
+                src={profile.profile_picture}
                 alt="avatar"
                 className="h-12 w-12 rounded-full border border-ink/10 object-cover"
               />
@@ -27,7 +27,7 @@ export default function HomePage() {
             <div className="p-4 rounded-2xl bg-ink text-white">
               <p className="text-sm opacity-70">Next reflection</p>
               <p className="text-xl font-semibold mt-1">Ready when you are.</p>
-              <p className="text-sm opacity-70 mt-1">We’ll nudge you gently at your preferred time.</p>
+              <p className="text-sm opacity-70 mt-1">We'll nudge you gently at your preferred time.</p>
             </div>
             <div className="p-4 rounded-2xl bg-white/80 border border-ink/5">
               <p className="text-sm text-ink/60">Latest insight</p>
@@ -38,5 +38,6 @@ export default function HomePage() {
         </div>
       </LayoutShell>
     </Protected>
-  );
+  )
 }
+

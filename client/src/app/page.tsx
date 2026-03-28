@@ -1,71 +1,102 @@
-'use client';
-import { GoogleLogin, googleLogout } from '@react-oauth/google';
-import { useRouter } from 'next/navigation';
-import { useDispatch, useSelector } from 'react-redux';
-import { jwtDecode } from 'jwt-decode';
-import { useGoogleLoginMutation } from '../features/auth/api';
-import { setAuth, clearAuth } from '../features/auth/slice';
-import { RootState } from '../lib/store';
-import { LayoutShell } from '../components/LayoutShell';
-
-interface GoogleIdTokenPayload {
-  sub: string;
-  email?: string;
-  name?: string;
-  picture?: string;
-}
+'use client'
+import { GoogleLogin, googleLogout } from '@react-oauth/google'
+import { useRouter } from 'next/navigation'
+import { Moon, Sun } from 'lucide-react'
+import { useState } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import { RootState } from '@/lib/redux/store'
+import { HeroGeometric } from '@/components/ui/shape-landing-hero'
+import { useGoogleAuthMutation } from './(auth)/redux/auth.api'
+import { loginSuccess, logoutSuccess } from './(auth)/redux/auth.slice'
 
 export default function LandingPage() {
   const router = useRouter();
   const dispatch = useDispatch();
-  const token = useSelector((s: RootState) => s.auth.token);
-  const user = useSelector((s: RootState) => s.auth.user);
-  const [googleLogin, { isLoading }] = useGoogleLoginMutation();
+  const [theme, setTheme] = useState<'light' | 'dark'>('light');
+  const token = useSelector((s: RootState) => s.auth.accessToken)
+  const profile = useSelector((s: RootState) => s.auth.profile)
+  const [googleAuth] = useGoogleAuthMutation()
 
   const handleSuccess = async (credentialResponse: any) => {
-    const id_token = credentialResponse.credential;
-    if (!id_token) return;
+    const id_token = credentialResponse.credential
+    if (!id_token) return
     try {
-      const payload: GoogleIdTokenPayload = jwtDecode(id_token);
-      const apiResp = await googleLogin({ id_token }).unwrap();
-      dispatch(
-        setAuth({
-          token: apiResp.access_token,
-          user: {
-            email: payload.email,
-            name: payload.name,
-            picture: payload.picture,
-          },
-        })
-      );
-      router.replace('/home');
+      const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone || 'UTC'
+      const apiResp = await googleAuth({ id_token, timezone }).unwrap()
+      dispatch(loginSuccess(apiResp))
+      router.replace('/home')
     } catch (err) {
-      console.error('login failed', err);
+      console.error('login failed', err)
     }
-  };
+  }
 
   const handleSignOut = () => {
-    googleLogout();
-    dispatch(clearAuth());
-  };
+    googleLogout()
+    dispatch(logoutSuccess())
+  }
 
   return (
-    <LayoutShell>
-      <div className="max-w-5xl mx-auto grid lg:grid-cols-2 gap-10 items-center mt-10">
-        <div className="space-y-6">
-          <div className="inline-flex items-center px-3 py-1 rounded-full bg-calm/10 text-calm text-sm font-semibold">
-            Early awareness, gentle support
-          </div>
-          <h1 className="text-4xl lg:text-5xl font-semibold leading-tight">
-            Witness AI helps you notice patterns before they feel heavy.
-          </h1>
-          <p className="text-lg text-ink/70">
-            Structured check-ins, quiet insights, and small nudges designed for your day.
-            Built for privacy-first reflection in cultures where mental health conversations need care.
+    <div className="relative">
+      <HeroGeometric
+        badge="Witness AI"
+        title1="Structured Reflection"
+        title2="Without Stigma"
+        description="A calm way to understand your patterns, one daily check-in at a time."
+        theme={theme}
+      />
+
+      <div className="absolute inset-x-4 top-6 z-20 flex items-start justify-between md:inset-x-8">
+        <h2
+          className={
+            theme === 'dark'
+              ? 'text-white/90 text-lg font-semibold tracking-wide'
+              : 'text-slate-900 text-lg font-semibold tracking-wide'
+          }
+        >
+          Witness AI
+        </h2>
+        <div className="flex items-center gap-2">
+          <button
+            className={
+              theme === 'dark'
+                ? 'inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/5 px-3 py-2 text-sm text-white/80 backdrop-blur-md hover:bg-white/10 transition'
+                : 'inline-flex items-center gap-2 rounded-full border border-slate-900/15 bg-white/70 px-3 py-2 text-sm text-slate-800 backdrop-blur-md hover:bg-white transition'
+            }
+            onClick={() => setTheme((prev) => (prev === 'light' ? 'dark' : 'light'))}
+          >
+            {theme === 'dark' ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
+            {theme === 'dark' ? 'Light' : 'Dark'}
+          </button>
+
+          <button
+            className={
+              theme === 'dark'
+                ? 'rounded-full border border-white/20 bg-white/5 px-4 py-2 text-sm text-white/80 backdrop-blur-md hover:bg-white/10 transition'
+                : 'rounded-full border border-slate-900/15 bg-white/70 px-4 py-2 text-sm text-slate-800 backdrop-blur-md hover:bg-white transition'
+            }
+            onClick={() => router.push('/profile')}
+          >
+            Profile
+          </button>
+        </div>
+      </div>
+
+      <div className="absolute inset-x-4 bottom-8 z-20 md:inset-x-auto md:left-1/2 md:-translate-x-1/2">
+        <div
+          className={
+            theme === 'dark'
+              ? 'w-full md:w-[560px] rounded-3xl border border-white/20 bg-black/45 p-5 text-white backdrop-blur-xl shadow-2xl'
+              : 'w-full md:w-[560px] rounded-3xl border border-slate-900/10 bg-white/80 p-5 text-slate-900 backdrop-blur-xl shadow-2xl'
+          }
+        >
+          <p className={theme === 'dark' ? 'text-sm uppercase tracking-[0.2em] text-emerald-200/80' : 'text-sm uppercase tracking-[0.2em] text-emerald-700'}>Start Today</p>
+          <p className={theme === 'dark' ? 'mt-2 text-sm text-white/75' : 'mt-2 text-sm text-slate-700'}>
+            Minimal daily reflection, adaptive prompts, and practical micro-actions for better emotional clarity.
           </p>
-          <div className="flex items-center gap-3">
+
+          <div className="mt-4 flex flex-wrap items-center gap-3">
             {!token ? (
-              <div className="card px-6 py-4 inline-flex items-center gap-3">
+              <div className="rounded-xl bg-white p-1.5">
                 <GoogleLogin
                   onSuccess={handleSuccess}
                   onError={() => console.error('Google Login Failed')}
@@ -73,42 +104,37 @@ export default function LandingPage() {
                 />
               </div>
             ) : (
-              <div className="flex items-center gap-3">
-                <button className="button-primary" onClick={() => router.push('/home')}>
-                  Continue
+              <>
+                <button
+                  className="rounded-full bg-emerald-400 px-4 py-2 text-sm font-semibold text-emerald-950 hover:bg-emerald-300 transition"
+                  onClick={() => router.push('/home')}
+                >
+                  Continue to Dashboard
                 </button>
-                <button className="button-ghost" onClick={handleSignOut}>
+                <button
+                  className={
+                    theme === 'dark'
+                      ? 'rounded-full border border-white/25 px-4 py-2 text-sm text-white/90 hover:bg-white/10 transition'
+                      : 'rounded-full border border-slate-900/20 px-4 py-2 text-sm text-slate-800 hover:bg-slate-900/5 transition'
+                  }
+                  onClick={handleSignOut}
+                >
                   Sign out
                 </button>
-              </div>
+              </>
             )}
           </div>
-          {user?.name && (
-            <p className="text-sm text-ink/60">Signed in as {user.name}</p>
+          {profile?.name && (
+            <p
+              className={
+                theme === 'dark' ? 'mt-2 text-sm text-white/70' : 'mt-2 text-sm text-slate-700'
+              }
+            >
+              Signed in as {profile.name}
+            </p>
           )}
         </div>
-        <div className="card p-8 space-y-6">
-          <p className="text-ink/70 text-sm font-medium uppercase tracking-wide">
-            Today’s gentle snapshot
-          </p>
-          <div className="space-y-4">
-            <div className="p-4 rounded-2xl bg-ink text-white shadow-lg">
-              <p className="text-sm opacity-80">Mood check-in</p>
-              <p className="text-2xl font-semibold mt-2">How was your energy today?</p>
-              <p className="text-sm opacity-80 mt-1">Witness AI adapts tomorrow’s questions based on this.</p>
-            </div>
-            <div className="p-4 rounded-2xl bg-white/80 border border-ink/5">
-              <p className="text-sm text-ink/60">Pattern insight</p>
-              <p className="font-semibold text-lg mt-1">Your focus dips after 3 PM.</p>
-              <p className="text-sm text-ink/60">Try a 5-minute breathing break before tackling key tasks.</p>
-            </div>
-            <div className="flex items-center gap-3 text-sm text-ink/60">
-              <span className="inline-flex h-3 w-3 rounded-full bg-calm"></span>
-              Private by default. Share only if you choose.
-            </div>
-          </div>
-        </div>
       </div>
-    </LayoutShell>
-  );
+    </div>
+  )
 }

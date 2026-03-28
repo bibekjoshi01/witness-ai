@@ -14,6 +14,12 @@
     "esModuleInterop": true,
     "module": "esnext",
     "moduleResolution": "bundler",
+    "baseUrl": ".",
+    "paths": {
+      "@/*": [
+        "src/*"
+      ]
+    },
     "resolveJsonModule": true,
     "isolatedModules": true,
     "jsx": "preserve",
@@ -34,7 +40,7 @@
     "src/**/*.ts",
     "src/**/*.tsx",
     ".next/types/**/*.ts"
-  ],
+, "src/lib/redux/store.ts"  ],
   "exclude": [
     "node_modules"
   ]
