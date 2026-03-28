@@ -4,13 +4,11 @@ from fastapi.middleware.cors import CORSMiddleware
 
 from app.db import init_db
 from app.routes import router as api_router
-from app.background.scheduler import start_scheduler
 
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     await init_db()
-    start_scheduler()
     yield
 
 

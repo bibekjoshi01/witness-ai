@@ -15,6 +15,13 @@ class User(Base):
         DateTime(timezone=True), default=lambda: dt.datetime.now(dt.timezone.utc)
     )
 
+    reflections = relationship("Reflection", back_populates="user")
+    insights = relationship("PatternInsight", back_populates="user")
+    journal_entries = relationship(
+        "DailyJournalEntry",
+        back_populates="user",
+        cascade="all, delete-orphan",
+    )
     profile = relationship(
         "UserProfile",
         back_populates="user",

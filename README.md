@@ -7,7 +7,7 @@ FastAPI backend for structured mental health reflection, with Google Sign-In aut
 python -m venv .venv && source .venv/bin/activate
 pip install -r requirements.txt
 cp .env.example .env  # adjust secrets/db
-uvicorn app.main:app --reload
+uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload
 ```
 
 ## Frontend (Next.js client)

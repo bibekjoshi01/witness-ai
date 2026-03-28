@@ -18,5 +18,6 @@ async def get_session() -> AsyncGenerator[AsyncSession, None]:
 
 async def init_db():
     # For hackathon simplicity, create tables on startup if they don't exist.
+    import app.models  # ensure models are loaded before create_all
     async with engine.begin() as conn:
         await conn.run_sync(Base.metadata.create_all)
