@@ -19,11 +19,15 @@ async def auth_google(
         select(models.User).where(models.User.google_sub == google_sub)
     )
     user = result.scalar_one_or_none()
+    first_time = False
+
+    # Register New User
     if not user:
         user = models.User(google_sub=google_sub, timezone=payload.timezone or "UTC")
         session.add(user)
         await session.commit()
         await session.refresh(user)
+        first_time = False
 
     token = create_access_token(user_id=user.id)
-    return schemas.TokenResponse(access_token=token)
+    return schemas.TokenResponse(access_token=token, first_time=first_time)

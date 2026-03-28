@@ -7,14 +7,14 @@ from app.models.base import Base, JSONType
 
 class User(Base):
     __tablename__ = "users"
-    id = Column(Integer, primary_key=True, index=True)
-    # value stores Google `sub`
-    google_sub = Column("device_id", String(255), unique=True, nullable=False, index=True)
-    timezone = Column(String(64), default="UTC")
-    created_at = Column(DateTime(timezone=True), default=dt.datetime.utcnow)
 
-    reflections = relationship("Reflection", back_populates="user")
-    insights = relationship("PatternInsight", back_populates="user")
+    id = Column(Integer, primary_key=True, index=True)
+    google_sub = Column(String(255), unique=True, nullable=False, index=True)
+    timezone = Column(String(64), default="UTC")
+    created_at = Column(
+        DateTime(timezone=True), default=lambda: dt.datetime.now(dt.timezone.utc)
+    )
+
     profile = relationship(
         "UserProfile",
         back_populates="user",
@@ -25,8 +25,11 @@ class User(Base):
 
 class UserProfile(Base):
     __tablename__ = "user_profiles"
+
     id = Column(Integer, primary_key=True)
-    user_id = Column(Integer, ForeignKey("users.id"), unique=True, index=True, nullable=False)
+    user_id = Column(
+        Integer, ForeignKey("users.id"), unique=True, index=True, nullable=False
+    )
     name = Column(String(255), nullable=True)
     email = Column(String(255), nullable=True)
     profile_picture = Column(String(500), nullable=True)
@@ -35,11 +38,16 @@ class UserProfile(Base):
     hobbies = Column(JSONType, default=list)
     mental_health_goal = Column(String(255), nullable=True)
     extra_notes = Column(Text, nullable=True)
-    created_at = Column(DateTime(timezone=True), default=dt.datetime.utcnow)
-    updated_at = Column(
-        DateTime(timezone=True), default=dt.datetime.utcnow, onupdate=dt.datetime.utcnow
-    )
 
+    created_at = Column(
+        DateTime(timezone=True), default=lambda: dt.datetime.now(dt.timezone.utc)
+    )
+    updated_at = Column(
+        DateTime(timezone=True),
+        default=lambda: dt.datetime.now(dt.timezone.utc),
+        onupdate=lambda: dt.datetime.now(dt.timezone.utc),
+    )
     user = relationship("User", back_populates="profile")
+
 
 __all__ = ["User", "UserProfile"]

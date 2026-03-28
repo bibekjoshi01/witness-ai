@@ -1,7 +1,9 @@
 from pydantic import BaseModel
 
+
 class TokenResponse(BaseModel):
     access_token: str
+    first_time: bool
     token_type: str = "bearer"
 
 

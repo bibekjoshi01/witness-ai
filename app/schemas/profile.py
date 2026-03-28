@@ -1,5 +1,6 @@
 from pydantic import BaseModel
 
+
 class UserProfileOut(BaseModel):
     name: str | None = None
     email: str | None = None

@@ -1,5 +1,14 @@
 import datetime as dt
-from sqlalchemy import Column, Integer, String, DateTime, Date, Text, Boolean, ForeignKey
+from sqlalchemy import (
+    Column,
+    Integer,
+    String,
+    DateTime,
+    Date,
+    Text,
+    Boolean,
+    ForeignKey,
+)
 from sqlalchemy.orm import relationship
 
 from app.models.base import Base, JSONType
@@ -37,5 +46,6 @@ class WeeklySummary(Base):
     content = Column(Text, nullable=False)
     shared_with_peer = Column(Boolean, default=False)
     created_at = Column(DateTime(timezone=True), default=dt.datetime.utcnow)
+
 
 __all__ = ["PatternInsight", "MicroAction", "WeeklySummary"]
