@@ -15,6 +15,9 @@ class DailyJournalEntry(Base):
 
     # user's own journal text
     free_text = Column(Text, nullable=True)
+    # optional computed insights/suggestions stored as JSON list
+    insights = Column(JSONType, default=list)
+    micro_actions = Column(JSONType, default=list)
 
     created_at = Column(
         DateTime(timezone=True), default=lambda: dt.datetime.now(dt.timezone.utc)
@@ -74,4 +77,8 @@ class UserAnswer(Base):
     journal_entry = relationship("DailyJournalEntry", back_populates="answers")
 
 
-__all__ = ["DailyJournalEntry", "GeneratedQuestion", "UserAnswer"]
+__all__ = [
+    "DailyJournalEntry",
+    "GeneratedQuestion",
+    "UserAnswer",
+]

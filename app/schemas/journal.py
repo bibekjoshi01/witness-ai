@@ -15,6 +15,8 @@ class JournalCreateIn(BaseModel):
     date: dt.date
     free_text: Optional[str] = None
     questions: List[JournalQuestionIn]
+    insights: List[Any] | None = None
+    micro_actions: List[Any] | None = None
 
 
 class JournalCreateOut(BaseModel):
@@ -24,8 +26,9 @@ class JournalCreateOut(BaseModel):
 class JournalOut(BaseModel):
     id: int
     date: dt.date
-    mood: Optional[str]
     free_text: Optional[str]
+    insights: List[Any] | None = None
+    micro_actions: List[Any] | None = None
     created_at: dt.datetime
 
     model_config = ConfigDict(from_attributes=True)

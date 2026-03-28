@@ -20,6 +20,8 @@ async def create_journal_entry(
         user_id=user.id,
         date=payload.date,
         free_text=payload.free_text,
+        insights=payload.insights or [],
+        micro_actions=payload.micro_actions or [],
     )
     session.add(entry)
     await session.flush()
@@ -56,10 +58,13 @@ async def list_journals(
     end_date: dt.date | None = Query(None),
     limit: int = Query(20, ge=1, le=100),
     offset: int = Query(0, ge=0),
+    entry_id: int | None = Query(None),
 ):
     stmt = select(models.DailyJournalEntry).where(
         models.DailyJournalEntry.user_id == user.id
     )
+    if entry_id:
+        stmt = stmt.where(models.DailyJournalEntry.id == entry_id)
     if start_date:
         stmt = stmt.where(models.DailyJournalEntry.date >= start_date)
     if end_date:
@@ -81,6 +86,8 @@ async def list_journals(
                 id=e.id,
                 date=e.date,
                 free_text=e.free_text,
+                insights=e.insights or [],
+                micro_actions=e.micro_actions or [],
                 created_at=e.created_at,
             )
             for e in items
