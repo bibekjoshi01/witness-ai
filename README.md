@@ -10,6 +10,14 @@ cp .env.example .env  # adjust secrets/db
 uvicorn app.main:app --reload
 ```
 
+## Frontend (Next.js client)
+```bash
+cd client
+cp .env.example .env   # set NEXT_PUBLIC_API_BASE_URL and NEXT_PUBLIC_GOOGLE_CLIENT_ID
+yarn install           # or npm install
+yarn dev
+```
+
 ## Docker
 ```bash
 docker-compose up --build
