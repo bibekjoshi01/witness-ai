@@ -8,12 +8,15 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy import select
 from google.oauth2 import id_token
 from google.auth.transport import requests as google_requests
+from passlib.context import CryptContext
 from app.config import get_settings
 from app.db import get_session
 from app import models
 
 security = HTTPBearer()
 settings = get_settings()
+# Use pbkdf2_sha256 to avoid bcrypt's 72-byte limit and backend issues.
+pwd_context = CryptContext(schemes=["pbkdf2_sha256"], deprecated="auto")
 
 
 def create_access_token(user_id: int) -> str:
@@ -23,6 +26,14 @@ def create_access_token(user_id: int) -> str:
     payload = {"sub": str(user_id), "exp": expire}
     token = jwt.encode(payload, settings.jwt_secret, algorithm="HS256")
     return token
+
+
+def verify_password(plain_password: str, hashed_password: str) -> bool:
+    return pwd_context.verify(plain_password, hashed_password)
+
+
+def get_password_hash(password: str) -> str:
+    return pwd_context.hash(password)
 
 
 async def verify_google_token(id_token_str: str) -> dict:

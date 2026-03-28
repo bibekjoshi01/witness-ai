@@ -41,7 +41,7 @@ class GeneratedQuestion(Base):
     )
 
     question_text = Column(Text, nullable=False)
-    schema = Column(JSONType, nullable=False)
+    question_schema = Column(JSONType, nullable=False)
 
     created_at = Column(
         DateTime(timezone=True), default=lambda: dt.datetime.now(dt.timezone.utc)

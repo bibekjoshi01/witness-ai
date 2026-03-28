@@ -28,7 +28,7 @@ async def create_journal_entry(
         gq = models.GeneratedQuestion(
             journal_entry_id=entry.id,
             question_text=q.question_text,
-            schema=q.schema,
+            question_schema=q.question_schema,
         )
         session.add(gq)
         await session.flush()

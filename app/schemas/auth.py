@@ -10,3 +10,8 @@ class TokenResponse(BaseModel):
 class GoogleAuthRequest(BaseModel):
     id_token: str
     timezone: str | None = None
+
+
+class BasicAuthRequest(BaseModel):
+    username: str
+    password: str
