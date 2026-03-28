@@ -29,12 +29,7 @@ async def verify_google_token(id_token_str: str) -> dict:
     """
     Validate a Google ID token.
 
-    In dev/test, `settings.google_mock_mode` lets us accept any string and treat it as the `sub`
-    to keep local flows simple. In prod, we require a valid token issued for our client id.
     """
-    if settings.google_mock_mode:
-        return {"sub": id_token_str}
-
     if not settings.google_client_id:
         raise HTTPException(
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,

@@ -15,12 +15,8 @@ class Settings(BaseSettings):
     llm_api_key: str | None = Field(default=None, description="LLM provider API key")
     scheduler_enabled: bool = Field(default=True)
     app_timezone: str = Field(default="UTC")
-    google_client_id: str | None = Field(
-        default=None, description="Google OAuth client id"
-    )
-    google_mock_mode: bool = Field(
-        default=True,
-        description="Skip Google token verification (only for local dev/tests)",
+    google_client_id: str = Field(
+        description="Google OAuth client id"
     )
 
     class Config:

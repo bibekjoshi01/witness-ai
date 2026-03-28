@@ -8,6 +8,12 @@ from app.main import app  # noqa: E402
 
 client = TestClient(app)
 
+@pytest.fixture(autouse=True)
+def stub_google_verification(monkeypatch):
+    async def _verify(token_str: str):
+        return {"sub": token_str}
+    monkeypatch.setattr("app.auth.verify_google_token", _verify)
+
 @pytest.fixture(scope="session", autouse=True)
 def setup_db():
     # trigger startup events
