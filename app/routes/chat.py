@@ -116,11 +116,16 @@ async def send_message(
     chat_session.updated_at = dt.datetime.now(dt.timezone.utc)
 
     await session.commit()
-    await session.refresh(chat_session)
-    await session.refresh(assistant_message)
-    await session.refresh(user_message)
 
-    history = chat_session.messages[-6:]
+    # pull recent history explicitly to avoid lazy-loading with async session
+    result = await session.execute(
+        select(models.ChatMessage)
+        .where(models.ChatMessage.session_id == chat_session.id)
+        .order_by(models.ChatMessage.created_at.desc())
+        .limit(6)
+    )
+    history = list(result.scalars().all())
+    history.reverse()
 
     return schemas.ChatReply(
         session_id=chat_session.id,
