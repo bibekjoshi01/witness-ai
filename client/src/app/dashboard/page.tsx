@@ -151,7 +151,7 @@ export default function DashboardPage() {
           <div className="grid auto-rows-[minmax(150px,auto)] grid-cols-1 gap-6 lg:grid-cols-12">
             <section className="rounded-xl border border-[var(--wa-border)] bg-gradient-to-br from-[var(--wa-panel)] via-[var(--wa-panel)] to-[var(--wa-panel-soft)] p-8 shadow-sm lg:col-span-8">
               <p className="text-sm font-semibold uppercase tracking-[0.12em] text-[var(--wa-accent)]">Current State</p>
-              <h2 className="mt-3 max-w-3xl font-display text-4xl font-semibold leading-[1.05] text-[var(--wa-text)] sm:text-5xl">
+              <h2 className="mt-3 max-w-4xl font-display text-xl font-semibold leading-relaxed text-[var(--wa-text)] sm:text-2xl">
                 {isLoading ? 'Loading dashboard...' : dashboard?.current_state || 'No state available'}
               </h2>
               <p className="mt-5 max-w-2xl font-body text-lg leading-relaxed text-[var(--wa-muted)]">
