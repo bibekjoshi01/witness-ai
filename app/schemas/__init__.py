@@ -13,6 +13,12 @@ from app.schemas.chat import (
     ChatMessageOut,
     ChatSessionOut,
 )
+from app.schemas.dashboard import (
+    DashboardResponse,
+    InsightItem,
+    ActionItem,
+    ProgressBlock,
+)
 
 __all__ = [
     "TokenResponse",
@@ -30,4 +36,8 @@ __all__ = [
     "ChatReply",
     "ChatMessageOut",
     "ChatSessionOut",
+    "DashboardResponse",
+    "InsightItem",
+    "ActionItem",
+    "ProgressBlock",
 ]
