@@ -1,11 +1,12 @@
-from pydantic import BaseModel
+from pydantic import BaseModel, Field, EmailStr, ConfigDict
 
 
 class UserProfileOut(BaseModel):
+    model_config = ConfigDict(from_attributes=True)
     name: str | None = None
-    email: str | None = None
+    email: EmailStr | None = None
     profile_picture: str | None = None
-    age: int | None = None
+    age: int | None = Field(default=None, ge=18)
     gender: str | None = None
     hobbies: list[str] | None = None
     mental_health_goal: str | None = None
@@ -14,10 +15,13 @@ class UserProfileOut(BaseModel):
 
 class UserProfileUpdate(BaseModel):
     name: str | None = None
-    email: str | None = None
-    profile_picture: str | None = None
-    age: int | None = None
-    gender: str | None = None
+    email: EmailStr | None = None
+    age: int | None = Field(default=None, ge=18)
+    gender: str | None = Field(default=None)
     hobbies: list[str] | None = None
     mental_health_goal: str | None = None
     extra_notes: str | None = None
+
+
+class UserProfileUpdateOut(BaseModel):
+    message: str

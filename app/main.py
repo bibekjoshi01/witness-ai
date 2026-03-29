@@ -3,14 +3,13 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
 from app.db import init_db
+from fastapi.staticfiles import StaticFiles
 from app.routes import router as api_router
-from app.background.scheduler import start_scheduler
 
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     await init_db()
-    start_scheduler()
     yield
 
 
@@ -25,6 +24,9 @@ app.add_middleware(
 )
 
 app.include_router(api_router)
+
+# Serve uploaded media
+app.mount("/media", StaticFiles(directory="media"), name="media")
 
 
 @app.get("/")

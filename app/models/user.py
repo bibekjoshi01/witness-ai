@@ -9,12 +9,19 @@ class User(Base):
     __tablename__ = "users"
 
     id = Column(Integer, primary_key=True, index=True)
-    google_sub = Column(String(255), unique=True, nullable=False, index=True)
+    google_sub = Column(String(255), unique=True, nullable=True, index=True)
+    username = Column(String(255), unique=True, nullable=True, index=True)
+    password_hash = Column(String(255), nullable=True)
     timezone = Column(String(64), default="UTC")
     created_at = Column(
         DateTime(timezone=True), default=lambda: dt.datetime.now(dt.timezone.utc)
     )
 
+    journal_entries = relationship(
+        "DailyJournalEntry",
+        back_populates="user",
+        cascade="all, delete-orphan",
+    )
     profile = relationship(
         "UserProfile",
         back_populates="user",

@@ -1,16 +1,16 @@
 from app.models.base import Base, JSONType
 from app.models.user import User, UserProfile
-from app.models.reflection import DailyQuestion, Reflection
-from app.models.insight import PatternInsight, MicroAction, WeeklySummary
+from app.models.journal import DailyJournalEntry, GeneratedQuestion, UserAnswer
+from app.models.chat import ChatSession, ChatMessage
 
 __all__ = [
     "Base",
     "JSONType",
     "User",
     "UserProfile",
-    "DailyQuestion",
-    "Reflection",
-    "PatternInsight",
-    "MicroAction",
-    "WeeklySummary",
+    "DailyJournalEntry",
+    "GeneratedQuestion",
+    "UserAnswer",
+    "ChatSession",
+    "ChatMessage",
 ]
