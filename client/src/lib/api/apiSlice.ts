@@ -44,5 +44,6 @@ export const rootAPI = createApi({
     'User',
     'Auth',
     'Journal',
+    'Chat',
   ],
 })

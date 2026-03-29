@@ -77,7 +77,7 @@ export default function LandingPage() {
                   ? 'rounded-full border border-white/20 bg-white/5 px-4 py-2 text-sm text-white/80 backdrop-blur-md hover:bg-white/10 transition'
                   : 'rounded-full border border-slate-900/15 bg-white/70 px-4 py-2 text-sm text-slate-800 backdrop-blur-md hover:bg-white transition'
               }
-              onClick={() => router.push('/journaling')}
+              onClick={() => router.push('/dashboard')}
             >
               Dashboard
             </button>
