@@ -2,6 +2,7 @@ import { rootAPI } from '@/lib/api/apiSlice'
 import {
   ICreateJournalRequest,
   ICreateJournalResponse,
+  IDashboardResponse,
   IGeneratedQuestion,
   IJournalByDateResponse,
   IListJournalsParams,
@@ -55,11 +56,19 @@ export const journalAPISlice = rootAPI.injectEndpoints({
           : [{ type: 'Journal' as const, id: 'LIST' }],
       keepUnusedDataFor: 30,
     }),
+    getDashboard: builder.query<IDashboardResponse, void>({
+      query: () => ({
+        url: '/dashboard',
+        method: 'GET',
+      }),
+      keepUnusedDataFor: 30,
+    }),
   }),
 })
 
 export const {
   useCreateJournalMutation,
+  useGetDashboardQuery,
   useGenerateQuestionsQuery,
   useGetJournalByDateQuery,
   useListJournalsQuery,

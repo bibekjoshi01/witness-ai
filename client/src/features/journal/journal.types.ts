@@ -64,3 +64,29 @@ export interface IListJournalsResponse {
   items: IJournalItem[]
   total: number
 }
+
+export interface IDashboardNoticingItem {
+  title: string
+  summary: string
+}
+
+export interface IDashboardTryTodayItem {
+  action: string
+  status: string
+  due_days: number
+}
+
+export interface IDashboardProgress {
+  streak_days: number
+  total_entries: number
+  weekly_entries: number
+}
+
+export interface IDashboardResponse {
+  current_state: string
+  current_date: string
+  last_entry_date: string
+  what_were_noticing: IDashboardNoticingItem[]
+  try_this_today: IDashboardTryTodayItem[]
+  progress: IDashboardProgress
+}
