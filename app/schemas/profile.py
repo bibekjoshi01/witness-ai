@@ -1,7 +1,8 @@
-from pydantic import BaseModel, Field, EmailStr
+from pydantic import BaseModel, Field, EmailStr, ConfigDict
 
 
 class UserProfileOut(BaseModel):
+    model_config = ConfigDict(from_attributes=True)
     name: str | None = None
     email: EmailStr | None = None
     profile_picture: str | None = None

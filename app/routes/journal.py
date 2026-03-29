@@ -1,11 +1,13 @@
-from fastapi import APIRouter, Depends, Query
+from fastapi import APIRouter, Depends, Query, HTTPException
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy import select, func
 import datetime as dt
+import asyncio
 
 from app import models, schemas
 from app.auth import get_current_user
 from app.db import get_session
+from app.services.insight_gen import generate_and_store_insights
 
 router = APIRouter(prefix="/journal", tags=["journal"])
 
@@ -16,37 +18,43 @@ async def create_journal_entry(
     user: models.User = Depends(get_current_user),
     session: AsyncSession = Depends(get_session),
 ):
-    entry = models.DailyJournalEntry(
-        user_id=user.id,
-        date=payload.date,
-        free_text=payload.free_text,
-        insights=payload.insights or [],
-        micro_actions=payload.micro_actions or [],
-    )
-    session.add(entry)
-    await session.flush()
-
-    for q in payload.questions:
-        gq = models.GeneratedQuestion(
-            journal_entry_id=entry.id,
-            question_text=q.question_text,
-            question_schema=q.question_schema,
+    try:
+        entry = models.DailyJournalEntry(
+            user_id=user.id,
+            date=payload.date,
+            free_text=payload.free_text,
+            insights=payload.insights or [],
+            micro_actions=payload.micro_actions or [],
         )
-        session.add(gq)
+        session.add(entry)
         await session.flush()
-        ua = models.UserAnswer(
-            question_id=gq.id,
-            journal_entry_id=entry.id,
-            answer_data=q.answer_data,
-        )
-        session.add(ua)
 
-    await session.commit()
-    await session.refresh(entry)
+        for q in payload.questions:
+            gq = models.GeneratedQuestion(
+                journal_entry_id=entry.id,
+                question_text=q.question_text,
+                question_schema=q.question_schema,
+            )
+            session.add(gq)
+            await session.flush()
+            ua = models.UserAnswer(
+                question_id=gq.id,
+                journal_entry_id=entry.id,
+                answer_data=q.answer_data,
+            )
+            session.add(ua)
+
+        await session.commit()
+        await session.refresh(entry)
+    except Exception as e:
+        await session.rollback()
+        raise HTTPException(
+            status_code=500, detail="Failed to save journal entry"
+        ) from e
+
+    asyncio.create_task(generate_and_store_insights(entry.id, user.id))
     return schemas.JournalCreateOut(
-        {
-            "message": "Your reflection has been saved. We'll start identifying patterns as you continue."
-        }
+        message="Your reflection has been saved. We'll start identifying patterns as you continue."
     )
 
 
