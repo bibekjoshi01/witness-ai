@@ -8,7 +8,7 @@ import { ChevronDown, ChevronUp, RefreshCcw, Send, X } from 'lucide-react'
 import { toast } from 'sonner'
 import { useCreateJournalMutation, useGetJournalByDateQuery, useListJournalsQuery } from '@/features/journal/journal.api'
 
-export default function HomePage() {
+export default function JournalingPage() {
   const selectedDateDefault = new Date().toISOString().slice(0, 10)
   const [selectedDate, setSelectedDate] = useState(selectedDateDefault)
   const [displayedMonth, setDisplayedMonth] = useState(() => {
@@ -212,15 +212,15 @@ export default function HomePage() {
 
   return (
     <Protected>
-      <LayoutShell title="Dashboard" subtitle="Your space for gentle reflection.">
+      <LayoutShell title="Journaling" subtitle="Your space for gentle reflection.">
         <div className="mx-auto w-full max-w-6xl space-y-6">
-          <div className="rounded-2xl border border-slate-20 p-8 dark:border-slate-800 dark:from-slate-900 dark:to-slate-900">
+          <div className="rounded-2xl border border-slate-20 p-8 dark:border-white/10 dark:bg-slate-900/45 dark:backdrop-blur-xl">
               <p className="text-sm font-medium uppercase tracking-wide text-slate-600 dark:text-slate-400">Daily Reflection Calendar</p>
               <h2 className="mt-2 font-display text-3xl font-semibold text-slate-900 dark:text-slate-100">
                 Pick a date to view or submit
               </h2>
 
-              <div className="mt-6 w-full rounded-3xl border border-slate-200/80 bg-gradient-to-b from-white to-slate-50 p-5 shadow-md shadow-slate-200/60 dark:border-slate-700 dark:from-slate-800 dark:to-slate-900 dark:shadow-none">
+              <div className="mt-6 w-full rounded-3xl border border-slate-200/80 bg-gradient-to-b from-white to-slate-50 p-5 shadow-md shadow-slate-200/60 dark:border-white/10 dark:from-slate-900/60 dark:to-slate-800/45 dark:shadow-none">
                 <div className="flex flex-wrap items-center justify-between gap-3">
                   <div className="flex items-center gap-2">
                     <select
@@ -229,7 +229,7 @@ export default function HomePage() {
                         const nextMonth = Number(event.target.value)
                         setDisplayedMonth(new Date(displayedMonth.getFullYear(), nextMonth, 1))
                       }}
-                      className="rounded-lg border border-slate-300 bg-white px-2.5 py-1.5 text-xs font-semibold text-slate-700 outline-none transition hover:bg-slate-50 focus:border-sky-400 focus:ring-2 focus:ring-sky-100 dark:border-slate-600 dark:bg-slate-900 dark:text-slate-200 dark:hover:bg-slate-800 dark:focus:border-sky-500 dark:focus:ring-sky-900/40"
+                      className="rounded-lg border border-slate-300 bg-white px-2.5 py-1.5 text-xs font-semibold text-slate-700 outline-none transition hover:bg-slate-50 focus:border-sky-400 focus:ring-2 focus:ring-sky-100 dark:border-white/15 dark:bg-slate-800/60 dark:text-slate-200 dark:hover:bg-slate-700/70 dark:focus:border-sky-400 dark:focus:ring-sky-900/40"
                       aria-label="Select month"
                     >
                       {monthNames.map((month, index) => (
@@ -244,7 +244,7 @@ export default function HomePage() {
                         const nextYear = Number(event.target.value)
                         setDisplayedMonth(new Date(nextYear, displayedMonth.getMonth(), 1))
                       }}
-                      className="rounded-lg border border-slate-300 bg-white px-2.5 py-1.5 text-xs font-semibold text-slate-700 outline-none transition hover:bg-slate-50 focus:border-sky-400 focus:ring-2 focus:ring-sky-100 dark:border-slate-600 dark:bg-slate-900 dark:text-slate-200 dark:hover:bg-slate-800 dark:focus:border-sky-500 dark:focus:ring-sky-900/40"
+                      className="rounded-lg border border-slate-300 bg-white px-2.5 py-1.5 text-xs font-semibold text-slate-700 outline-none transition hover:bg-slate-50 focus:border-sky-400 focus:ring-2 focus:ring-sky-100 dark:border-white/15 dark:bg-slate-800/60 dark:text-slate-200 dark:hover:bg-slate-700/70 dark:focus:border-sky-400 dark:focus:ring-sky-900/40"
                       aria-label="Select year"
                     >
                       {selectableYears.map((year) => (
@@ -258,7 +258,7 @@ export default function HomePage() {
 
                 <div className="mt-4 grid grid-cols-7 gap-1.5 text-center text-sm font-semibold uppercase tracking-wide text-slate-500 dark:text-slate-400">
                   {['Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa', 'Su'].map((day) => (
-                    <span key={day} className="rounded-md bg-slate-100 py-2 dark:bg-slate-700/70">{day}</span>
+                    <span key={day} className="rounded-md bg-slate-100 py-2 dark:bg-slate-800/70">{day}</span>
                   ))}
                 </div>
 
@@ -329,13 +329,13 @@ export default function HomePage() {
 
           {isDateModalOpen ? (
             <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-2 md:p-6" role="dialog" aria-modal="true">
-              <div className="h-[92vh] w-[96vw] max-w-[1400px] overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-2xl dark:border-slate-700 dark:bg-slate-900">
-                <div className="flex items-center justify-between gap-3 border-b border-slate-200 px-5 py-4 md:px-8 md:py-5 dark:border-slate-700">
+              <div className="h-[92vh] w-[96vw] max-w-[1400px] overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-2xl dark:border-white/10 dark:bg-slate-900/70 dark:backdrop-blur-xl">
+                <div className="flex items-center justify-between gap-3 border-b border-slate-200 px-5 py-4 md:px-8 md:py-5 dark:border-white/10">
                   <h3 className="font-display text-2xl font-semibold text-slate-900 md:text-3xl dark:text-slate-100">Selected Date Entry</h3>
                   <button
                     type="button"
                     onClick={() => setIsDateModalOpen(false)}
-                    className="rounded-xl border border-slate-300 bg-white p-2.5 text-slate-700 transition hover:bg-slate-50 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-300 dark:hover:bg-slate-700"
+                    className="rounded-xl border border-slate-300 bg-white p-2.5 text-slate-700 transition hover:bg-slate-50 dark:border-white/15 dark:bg-slate-800/65 dark:text-slate-200 dark:hover:bg-slate-700/75"
                     aria-label="Close entry popup"
                   >
                     <X className="h-4 w-4" />
@@ -466,4 +466,3 @@ export default function HomePage() {
     </Protected>
   )
 }
-

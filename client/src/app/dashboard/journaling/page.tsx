@@ -8,7 +8,7 @@ import { ChevronDown, ChevronUp, RefreshCcw, Send, X } from 'lucide-react'
 import { toast } from 'sonner'
 import { useCreateJournalMutation, useGetJournalByDateQuery, useListJournalsQuery } from '@/features/journal/journal.api'
 
-export default function HomePage() {
+export default function JournalingPage() {
   const selectedDateDefault = new Date().toISOString().slice(0, 10)
   const [selectedDate, setSelectedDate] = useState(selectedDateDefault)
   const [displayedMonth, setDisplayedMonth] = useState(() => {
@@ -212,7 +212,7 @@ export default function HomePage() {
 
   return (
     <Protected>
-      <LayoutShell title="Dashboard" subtitle="Your space for gentle reflection.">
+      <LayoutShell title="Journaling" subtitle="Your space for gentle reflection.">
         <div className="mx-auto w-full max-w-6xl space-y-6">
           <div className="rounded-2xl border border-slate-20 p-8 dark:border-slate-800 dark:from-slate-900 dark:to-slate-900">
               <p className="text-sm font-medium uppercase tracking-wide text-slate-600 dark:text-slate-400">Daily Reflection Calendar</p>
@@ -466,4 +466,3 @@ export default function HomePage() {
     </Protected>
   )
 }
-

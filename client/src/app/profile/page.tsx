@@ -64,27 +64,27 @@ export default function ProfilePage() {
       >
         <div className="mx-auto max-w-2xl space-y-6">
           {/* Profile Picture */}
-          <div className="rounded-xl border border-slate-200 bg-white p-6 shadow-sm">
+          <div className="rounded-xl border border-slate-200 bg-white p-6 shadow-sm dark:border-white/10 dark:bg-slate-900/55 dark:backdrop-blur-xl">
             <div className="flex flex-wrap items-center justify-between gap-4">
               <div className="flex items-center gap-4">
                 {profile?.profile_picture ? (
                   <img
                     src={profile.profile_picture}
                     alt="Profile"
-                    className="h-16 w-16 rounded-full border border-slate-200 object-cover"
+                    className="h-16 w-16 rounded-full border border-slate-200 object-cover dark:border-white/15"
                   />
                 ) : (
-                  <div className="h-16 w-16 rounded-full bg-gradient-to-br from-blue-100 to-blue-50 ring-1 ring-blue-200" />
+                  <div className="h-16 w-16 rounded-full bg-gradient-to-br from-blue-100 to-blue-50 ring-1 ring-blue-200 dark:from-sky-900/40 dark:to-blue-900/20 dark:ring-sky-700/40" />
                 )}
                 <div>
-                  <p className="font-display text-lg font-semibold text-slate-900">Profile picture</p>
+                  <p className="font-display text-lg font-semibold text-slate-900 dark:text-slate-100">Profile picture</p>
                 </div>
               </div>
               <div className="flex flex-wrap items-center gap-2">
                 <button
                   type="button"
                   disabled
-                  className="rounded-lg border border-slate-300 px-4 py-2 text-xs font-semibold text-slate-700 opacity-50 cursor-not-allowed"
+                  className="cursor-not-allowed rounded-lg border border-slate-300 px-4 py-2 text-xs font-semibold text-slate-700 opacity-50 dark:border-white/15 dark:text-slate-300"
                   title="Coming soon"
                 >
                   Remove
@@ -92,7 +92,7 @@ export default function ProfilePage() {
                 <button
                   type="button"
                   disabled
-                  className="rounded-lg bg-blue-500 px-4 py-2 text-xs font-semibold text-white opacity-50 cursor-not-allowed"
+                  className="cursor-not-allowed rounded-lg bg-blue-500 px-4 py-2 text-xs font-semibold text-white opacity-50 dark:bg-blue-500/80"
                   title="Coming soon"
                 >
                   Upload New
@@ -102,14 +102,14 @@ export default function ProfilePage() {
           </div>
 
           {/* Basic Information */}
-          <div className="rounded-xl border border-slate-200 bg-white p-6 shadow-sm">
-            <h3 className="font-display text-lg font-semibold text-slate-900">Basic information</h3>
-            <p className="mt-1 text-sm text-slate-700">
+          <div className="rounded-xl border border-slate-200 bg-white p-6 shadow-sm dark:border-white/10 dark:bg-slate-900/55 dark:backdrop-blur-xl">
+            <h3 className="font-display text-lg font-semibold text-slate-900 dark:text-slate-100">Basic information</h3>
+            <p className="mt-1 text-sm text-slate-700 dark:text-slate-300">
               Keep your details up to date so Witness AI can personalize your experience.
             </p>
             <div className="mt-6 grid gap-4 md:grid-cols-2">
               <div>
-                <label htmlFor="name" className="text-xs uppercase tracking-wide font-medium text-slate-700">
+                <label htmlFor="name" className="text-xs font-medium uppercase tracking-wide text-slate-700 dark:text-slate-300">
                   Name
                 </label>
                 <input
@@ -117,11 +117,11 @@ export default function ProfilePage() {
                   type="text"
                   value={form.name}
                   onChange={(event) => handleChange('name', event.target.value)}
-                  className="mt-2 w-full rounded-lg border border-slate-300 bg-white px-4 py-3 text-sm text-slate-900 outline-none transition focus:border-blue-400 focus:ring-1 focus:ring-blue-400"
+                  className="mt-2 w-full rounded-lg border border-slate-300 bg-white px-4 py-3 text-sm text-slate-900 outline-none transition focus:border-blue-400 focus:ring-1 focus:ring-blue-400 dark:border-white/15 dark:bg-slate-800/65 dark:text-slate-100 dark:placeholder:text-slate-400 dark:focus:border-sky-400 dark:focus:ring-sky-500/50"
                 />
               </div>
               <div>
-                <label htmlFor="email" className="text-xs uppercase tracking-wide font-medium text-slate-700">
+                <label htmlFor="email" className="text-xs font-medium uppercase tracking-wide text-slate-700 dark:text-slate-300">
                   Email address
                 </label>
                 <input
@@ -129,11 +129,11 @@ export default function ProfilePage() {
                   type="email"
                   value={form.email}
                   onChange={(event) => handleChange('email', event.target.value)}
-                  className="mt-2 w-full rounded-lg border border-slate-300 bg-white px-4 py-3 text-sm text-slate-900 outline-none transition focus:border-blue-400 focus:ring-1 focus:ring-blue-400"
+                  className="mt-2 w-full rounded-lg border border-slate-300 bg-white px-4 py-3 text-sm text-slate-900 outline-none transition focus:border-blue-400 focus:ring-1 focus:ring-blue-400 dark:border-white/15 dark:bg-slate-800/65 dark:text-slate-100 dark:placeholder:text-slate-400 dark:focus:border-sky-400 dark:focus:ring-sky-500/50"
                 />
               </div>
               <div>
-                <label htmlFor="age" className="text-xs uppercase tracking-wide font-medium text-slate-700">
+                <label htmlFor="age" className="text-xs font-medium uppercase tracking-wide text-slate-700 dark:text-slate-300">
                   Age
                 </label>
                 <input
@@ -142,11 +142,11 @@ export default function ProfilePage() {
                   min="0"
                   value={form.age}
                   onChange={(event) => handleChange('age', event.target.value)}
-                  className="mt-2 w-full rounded-lg border border-slate-300 bg-white px-4 py-3 text-sm text-slate-900 outline-none transition focus:border-blue-400 focus:ring-1 focus:ring-blue-400"
+                  className="mt-2 w-full rounded-lg border border-slate-300 bg-white px-4 py-3 text-sm text-slate-900 outline-none transition focus:border-blue-400 focus:ring-1 focus:ring-blue-400 dark:border-white/15 dark:bg-slate-800/65 dark:text-slate-100 dark:placeholder:text-slate-400 dark:focus:border-sky-400 dark:focus:ring-sky-500/50"
                 />
               </div>
               <div className="md:col-span-2">
-                <label htmlFor="hobbies" className="text-xs uppercase tracking-wide font-medium text-slate-700">
+                <label htmlFor="hobbies" className="text-xs font-medium uppercase tracking-wide text-slate-700 dark:text-slate-300">
                   Hobbies (comma separated)
                 </label>
                 <input
@@ -154,7 +154,7 @@ export default function ProfilePage() {
                   type="text"
                   value={form.hobbies}
                   onChange={(event) => handleChange('hobbies', event.target.value)}
-                  className="mt-2 w-full rounded-lg border border-slate-300 bg-white px-4 py-3 text-sm text-slate-900 outline-none transition focus:border-blue-400 focus:ring-1 focus:ring-blue-400"
+                  className="mt-2 w-full rounded-lg border border-slate-300 bg-white px-4 py-3 text-sm text-slate-900 outline-none transition focus:border-blue-400 focus:ring-1 focus:ring-blue-400 dark:border-white/15 dark:bg-slate-800/65 dark:text-slate-100 dark:placeholder:text-slate-400 dark:focus:border-sky-400 dark:focus:ring-sky-500/50"
                   placeholder="walking, journaling, music"
                 />
               </div>
@@ -162,11 +162,11 @@ export default function ProfilePage() {
           </div>
 
           {/* AI Personalization */}
-          <div className="rounded-xl border border-slate-200 bg-white p-6 shadow-sm">
-            <h3 className="font-display text-lg font-semibold text-slate-900">AI personalization</h3>
+          <div className="rounded-xl border border-slate-200 bg-white p-6 shadow-sm dark:border-white/10 dark:bg-slate-900/55 dark:backdrop-blur-xl">
+            <h3 className="font-display text-lg font-semibold text-slate-900 dark:text-slate-100">AI personalization</h3>
             <div className="mt-6 grid gap-4">
               <div>
-                <label htmlFor="mental_health_goal" className="text-xs uppercase tracking-wide font-medium text-slate-700">
+                <label htmlFor="mental_health_goal" className="text-xs font-medium uppercase tracking-wide text-slate-700 dark:text-slate-300">
                   Mental health goal
                 </label>
                 <input
@@ -174,12 +174,12 @@ export default function ProfilePage() {
                   type="text"
                   value={form.mental_health_goal}
                   onChange={(event) => handleChange('mental_health_goal', event.target.value)}
-                  className="mt-2 w-full rounded-lg border border-slate-300 bg-white px-4 py-3 text-sm text-slate-900 outline-none transition focus:border-blue-400 focus:ring-1 focus:ring-blue-400"
+                  className="mt-2 w-full rounded-lg border border-slate-300 bg-white px-4 py-3 text-sm text-slate-900 outline-none transition focus:border-blue-400 focus:ring-1 focus:ring-blue-400 dark:border-white/15 dark:bg-slate-800/65 dark:text-slate-100 dark:placeholder:text-slate-400 dark:focus:border-sky-400 dark:focus:ring-sky-500/50"
                   placeholder="Reduce stress, build steady routines"
                 />
               </div>
               <div>
-                <label htmlFor="extra_notes" className="text-xs uppercase tracking-wide font-medium text-slate-700">
+                <label htmlFor="extra_notes" className="text-xs font-medium uppercase tracking-wide text-slate-700 dark:text-slate-300">
                   Extra notes
                 </label>
                 <textarea
@@ -187,7 +187,7 @@ export default function ProfilePage() {
                   value={form.extra_notes}
                   onChange={(event) => handleChange('extra_notes', event.target.value)}
                   rows={4}
-                  className="mt-2 w-full rounded-lg border border-slate-300 bg-white px-4 py-3 text-sm text-slate-900 outline-none transition focus:border-blue-400 focus:ring-1 focus:ring-blue-400 resize-none"
+                  className="mt-2 w-full resize-none rounded-lg border border-slate-300 bg-white px-4 py-3 text-sm text-slate-900 outline-none transition focus:border-blue-400 focus:ring-1 focus:ring-blue-400 dark:border-white/15 dark:bg-slate-800/65 dark:text-slate-100 dark:placeholder:text-slate-400 dark:focus:border-sky-400 dark:focus:ring-sky-500/50"
                   placeholder="Anything else you want Witness AI to know."
                 />
               </div>
@@ -195,18 +195,18 @@ export default function ProfilePage() {
           </div>
 
           {/* Save Actions */}
-          <div className="flex flex-wrap items-center justify-between gap-3 rounded-xl border border-slate-200 bg-slate-50 p-5">
-            <p className="text-sm text-slate-700">
+          <div className="flex flex-wrap items-center justify-between gap-3 rounded-xl border border-slate-200 bg-slate-50 p-5 dark:border-white/10 dark:bg-slate-800/45">
+            <p className="text-sm text-slate-700 dark:text-slate-300">
               {isLoading ? 'Loading profile...' : 'Unsaved changes will be lost if you leave.'}
             </p>
             <div className="flex items-center gap-2">
-              <button className="rounded-lg border border-slate-300 px-4 py-2 text-sm font-semibold text-slate-700 transition hover:bg-white">
+              <button className="rounded-lg border border-slate-300 px-4 py-2 text-sm font-semibold text-slate-700 transition hover:bg-white dark:border-white/15 dark:text-slate-200 dark:hover:bg-slate-700/60">
                 Discard
               </button>
               <button
                 onClick={handleSave}
                 disabled={isSaving}
-                className="rounded-lg bg-blue-500 px-5 py-2 text-sm font-semibold text-white transition hover:bg-blue-600 disabled:opacity-60"
+                className="rounded-lg bg-blue-500 px-5 py-2 text-sm font-semibold text-white transition hover:bg-blue-600 disabled:opacity-60 dark:bg-blue-500/90 dark:hover:bg-blue-400"
               >
                 {isSaving ? 'Saving...' : 'Save changes'}
               </button>
