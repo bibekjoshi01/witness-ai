@@ -3,7 +3,7 @@ import Cookies from 'js-cookie'
 import { toast } from 'sonner'
 import { PUBLIC_ACCESS_TOKEN } from '@/constants/public/tokens'
 
-const noAuthRoutes = ['/auth/google']
+const noAuthRoutes = ['/auth/basic']
 
 // Constructing the base URL dynamically using environment variables.
 export const baseURL = process.env.NEXT_PUBLIC_API_BASE_URL || ''

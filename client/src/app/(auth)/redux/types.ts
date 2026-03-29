@@ -9,13 +9,22 @@ export interface IUserProfile {
   extra_notes: string
 }
 
-export type IUserProfileUpdatePayload = Partial<IUserProfile>
+export type IUserProfileUpdatePayload = Partial<{
+  name: string
+  email: string
+  age: number
+  gender: string
+  hobbies: string[]
+  mental_health_goal: string
+  extra_notes: string
+}>
 
 export interface IAuthState {
   accessToken: string | null
   tokenType: string | null
   firstTime: boolean | null
   isAuthenticated: boolean
+  isHydrated: boolean
   profile: IUserProfile | null
 }
 

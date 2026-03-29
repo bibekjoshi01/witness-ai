@@ -1,43 +1,80 @@
 ﻿'use client'
 
-import React, { PropsWithChildren } from 'react'
+import React, { PropsWithChildren, useState } from 'react'
 import Link from 'next/link'
-import { usePathname } from 'next/navigation'
+import { usePathname, useRouter } from 'next/navigation'
+import { useDispatch } from 'react-redux'
 import {
   LayoutDashboard,
   Mic,
   ListTodo,
   MessageCircle,
   User,
-  Settings,
+  Bell,
+  LogOut,
+  PanelLeftClose,
+  PanelLeftOpen,
 } from 'lucide-react'
+import { AppDispatch } from '@/lib/redux/store'
+import { logoutSuccess } from '@/app/(auth)/redux/auth.slice'
 
 type LayoutShellProps = PropsWithChildren & {
   title?: string
   subtitle?: string
+  headerActions?: React.ReactNode
 }
 
 const navItems = [
   { label: 'Dashboard', href: '/home', icon: LayoutDashboard },
-  { label: 'Reflect', href: '/home#reflect', icon: Mic },
+  { label: 'Reflect', href: '/reflect', icon: Mic },
   { label: 'Tasks', href: '/home#tasks', icon: ListTodo },
-  { label: 'Chat', href: '/home#chat', icon: MessageCircle },
+  { label: 'Chat', href: '/chat', icon: MessageCircle },
   { label: 'Profile', href: '/profile', icon: User },
 ]
 
-export function LayoutShell({ children, title, subtitle }: LayoutShellProps) {
+export function LayoutShell({ children, title, subtitle, headerActions }: LayoutShellProps) {
   const pathname = usePathname()
+  const router = useRouter()
+  const dispatch = useDispatch<AppDispatch>()
+  const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(false)
+
+  const handleLogout = () => {
+    dispatch(logoutSuccess())
+    router.push('/')
+  }
+
   return (
-    <div className="min-h-screen bg-mist text-ink">
-      <div className="flex">
-        <aside className="hidden lg:flex lg:w-72 lg:flex-col lg:justify-between lg:border-r lg:border-ink/10 lg:bg-white/70 lg:backdrop-blur-xl">
-          <div className="px-6 py-6">
-            <Link href="/" className="flex items-center gap-3 font-display text-lg font-semibold">
-              <span className="flex h-9 w-9 items-center justify-center rounded-2xl bg-ink text-white">
-                W
-              </span>
-              Witness AI
-            </Link>
+    <div className="h-screen overflow-hidden bg-slate-50 text-slate-900">
+      <div className="flex h-full">
+        <aside
+          className={`hidden lg:flex lg:h-screen lg:flex-col lg:justify-between lg:border-r lg:border-slate-200 lg:bg-white lg:shadow-sm lg:transition-[width] lg:duration-300 ${
+            isSidebarCollapsed ? 'lg:w-20' : 'lg:w-56'
+          }`}
+        >
+          <div className={`py-6 ${isSidebarCollapsed ? 'px-3' : 'px-6'}`}>
+            <div className={`relative flex items-center ${isSidebarCollapsed ? 'justify-center' : 'justify-between gap-2'}`}>
+              <Link
+                href="/"
+                className={`flex items-center font-display text-lg font-semibold text-slate-900 ${
+                  isSidebarCollapsed ? 'justify-center' : 'gap-3'
+                }`}
+              >
+                <span className="flex h-9 w-9 items-center justify-center rounded-2xl bg-blue-100 text-blue-600 ring-1 ring-blue-200">
+                  <span className="h-2.5 w-2.5 rounded-full bg-blue-500" />
+                </span>
+                {!isSidebarCollapsed ? 'Witness AI' : null}
+              </Link>
+              <button
+                type="button"
+                onClick={() => setIsSidebarCollapsed((prev) => !prev)}
+                aria-label={isSidebarCollapsed ? 'Expand sidebar' : 'Collapse sidebar'}
+                className={`hidden h-9 w-9 items-center justify-center rounded-full border border-slate-200 bg-slate-50 text-slate-600 transition hover:text-slate-900 lg:flex ${
+                  isSidebarCollapsed ? 'absolute -right-4 top-6 z-30 bg-white shadow-sm' : ''
+                }`}
+              >
+                {isSidebarCollapsed ? <PanelLeftOpen className="h-4 w-4" /> : <PanelLeftClose className="h-4 w-4" />}
+              </button>
+            </div>
             <nav className="mt-10 space-y-2">
               {navItems.map((item) => {
                 const isActive = pathname === item.href
@@ -46,42 +83,61 @@ export function LayoutShell({ children, title, subtitle }: LayoutShellProps) {
                   <Link
                     key={item.href}
                     href={item.href}
-                    className={`flex items-center gap-3 rounded-2xl px-4 py-3 text-sm font-medium transition ${
+                    title={item.label}
+                    className={`flex items-center gap-3 rounded-lg px-4 py-3 text-sm font-medium transition ${
                       isActive
-                        ? 'bg-ink text-white shadow-lg shadow-ink/10'
-                        : 'text-ink/70 hover:bg-ink/5 hover:text-ink'
-                    }`}
+                        ? 'border border-blue-200 bg-blue-50 text-blue-700'
+                        : 'text-slate-600 hover:bg-slate-100 hover:text-slate-900'
+                    } ${isSidebarCollapsed ? 'justify-center px-2' : ''}`}
                   >
                     <Icon className="h-4 w-4" />
-                    {item.label}
+                    {!isSidebarCollapsed ? item.label : null}
                   </Link>
                 )
               })}
             </nav>
           </div>
-          <div className="px-6 py-6">
-            <div className="rounded-2xl border border-ink/10 bg-white/80 p-4">
-              <p className="text-xs uppercase tracking-[0.2em] text-ink/50">Plan</p>
-              <p className="mt-1 font-display text-sm font-semibold">Calm Starter</p>
-              <p className="text-xs text-ink/60">Daily reflection + voice</p>
-            </div>
+          <div className={`py-6 space-y-3 ${isSidebarCollapsed ? 'px-3' : 'px-6'}`}>
+            {!isSidebarCollapsed ? (
+              <div className="rounded-lg border border-slate-200 bg-white p-4 shadow-sm">
+                <p className="text-xs uppercase tracking-[0.2em] text-slate-600 font-medium">Plan</p>
+                <p className="mt-1 font-display text-sm font-semibold text-slate-900">Calm Starter</p>
+                <p className="text-xs text-slate-600">Daily reflection + voice</p>
+              </div>
+            ) : null}
+            <button
+              type="button"
+              onClick={handleLogout}
+              title="Logout"
+              className={`flex w-full items-center justify-center rounded-lg border border-rose-200 bg-rose-50 text-sm font-semibold text-rose-700 transition hover:bg-rose-100 ${
+                isSidebarCollapsed ? 'px-2 py-2.5' : 'gap-2 px-4 py-2.5'
+              }`}
+            >
+              <LogOut className="h-4 w-4" />
+              {!isSidebarCollapsed ? 'Logout' : null}
+            </button>
           </div>
         </aside>
 
-        <div className="flex-1">
-          <header className="sticky top-0 z-20 border-b border-ink/10 bg-white/80 backdrop-blur-xl">
+        <div className="h-screen flex-1 overflow-y-auto">
+          <header className="sticky top-0 z-20 border-b border-slate-200 bg-white">
             <div className="flex items-center justify-between px-5 py-4 lg:px-10">
               <div>
-                <p className="text-xs uppercase tracking-[0.2em] text-ink/40">Witness AI</p>
-                <h1 className="font-display text-2xl font-semibold text-ink">{title}</h1>
-                {subtitle && <p className="text-sm text-ink/60">{subtitle}</p>}
+                <h1 className="font-display text-2xl font-semibold text-slate-900">{title}</h1>
+                {subtitle && <p className="text-sm text-slate-700">{subtitle}</p>}
               </div>
-              <button className="flex h-10 w-10 items-center justify-center rounded-full border border-ink/10 bg-white text-ink/70 transition hover:text-ink">
-                <Settings className="h-4 w-4" />
-              </button>
+              <div className="ml-auto flex items-center gap-2">
+                {headerActions}
+                <button
+                  aria-label="Notifications"
+                  className="flex h-10 w-10 items-center justify-center rounded-full border border-slate-200 bg-slate-50 text-slate-600 transition hover:text-slate-900"
+                >
+                  <Bell className="h-4 w-4" />
+                </button>
+              </div>
             </div>
           </header>
-          <main className="px-4 pb-10 pt-6 lg:px-10">{children}</main>
+          <main className="px-4 pb-12 pt-6 lg:px-10">{children}</main>
         </div>
       </div>
     </div>

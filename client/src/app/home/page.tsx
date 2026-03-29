@@ -4,145 +4,144 @@ import { Protected } from '@/components/Protected'
 import { useSelector } from 'react-redux'
 import { RootState } from '@/lib/redux/store'
 import { useState } from 'react'
-import { Mic, Sparkles, Wand2 } from 'lucide-react'
+import { Mic, Send } from 'lucide-react'
+import { toast } from 'sonner'
+import { useCreateJournalMutation, useListJournalsQuery } from '@/features/journal/journal.api'
 
 export default function HomePage() {
   const profile = useSelector((s: RootState) => s.auth.profile)
   const [isReflecting, setIsReflecting] = useState(false)
   const [reflection, setReflection] = useState('')
+  const [createJournal, { isLoading: isSaving }] = useCreateJournalMutation()
+  const {
+    data: journalsResponse,
+    isLoading: isLoadingJournals,
+    isFetching: isFetchingJournals,
+    isError: isJournalError,
+    refetch,
+  } = useListJournalsQuery({ limit: 5, offset: 0 })
+
+  const handleSave = async () => {
+    const text = reflection.trim()
+    if (!text) return
+
+    const date = new Date().toISOString().slice(0, 10)
+
+    try {
+      await createJournal({
+        date,
+        free_text: text,
+        questions: [],
+      }).unwrap()
+      toast.success('Journal entry saved')
+      setReflection('')
+      setIsReflecting(false)
+    } catch {
+      toast.error('Unable to save journal entry')
+    }
+  }
+
   return (
     <Protected>
-      <LayoutShell title="Dashboard" subtitle="Your calm workspace for reflection and growth.">
-        <div className="grid gap-6 lg:grid-cols-[320px_1fr]">
-          <section className="space-y-4">
-            <div className="rounded-3xl border border-ink/10 bg-white/90 p-5 shadow-lg shadow-ink/5">
-              <div className="flex items-center gap-3">
-                <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-ink text-white">
-                  <Sparkles className="h-5 w-5" />
-                </div>
+      <LayoutShell title="Dashboard" subtitle="Your space for gentle reflection.">
+        <div className="mx-auto max-w-2xl space-y-8">
+          {/* Welcome Card */}
+          <div className="rounded-xl bg-gradient-to-br from-blue-50 to-indigo-50 p-8 border border-slate-200">
+            <p className="text-sm text-slate-600 uppercase tracking-wide font-medium">Welcome</p>
+            <h2 className="mt-2 font-display text-3xl font-semibold text-slate-900">
+              {profile?.name || 'Friend'}
+            </h2>
+            <p className="mt-3 text-slate-700 text-base">Take a moment to reflect on what's on your mind.</p>
+          </div>
+
+          {/* Reflection Box */}
+          <div className="rounded-xl bg-white border border-slate-200 p-8 shadow-sm">
+            {!isReflecting ? (
+              <div className="text-center">
+                <h3 className="font-display text-2xl font-semibold text-slate-900">Start a reflection</h3>
+                <p className="mt-2 text-slate-600">What's on your mind today?</p>
+                <button
+                  onClick={() => setIsReflecting(true)}
+                  className="mx-auto mt-8 flex h-16 w-16 items-center justify-center rounded-full bg-blue-500 text-white shadow-md hover:shadow-lg hover:bg-blue-600 transition"
+                >
+                  <Mic className="h-7 w-7" />
+                </button>
+              </div>
+            ) : (
+              <div className="space-y-5">
                 <div>
-                  <p className="text-xs uppercase tracking-[0.2em] text-ink/50">Welcome back</p>
-                  <p className="font-display text-lg font-semibold">{profile?.name || 'Friend'}</p>
-                </div>
-              </div>
-              <p className="mt-3 text-sm text-ink/60">
-                Today's gentle focus: notice what feels heavy, then lighten it with one small action.
-              </p>
-            </div>
-
-            <div className="rounded-3xl border border-ink/10 bg-white/80 p-5">
-              <p className="text-xs uppercase tracking-[0.2em] text-ink/50">Current sessions</p>
-              <div className="mt-4 space-y-3">
-                {[
-                  { title: 'Morning check-in', time: '9:10 AM', note: 'Low energy, gentle start' },
-                  { title: 'Anxious before meeting', time: '2:15 PM', note: 'Grounding first' },
-                  { title: 'Evening reset', time: 'Yesterday', note: 'Short gratitude list' },
-                ].map((item) => (
-                  <button
-                    key={item.title}
-                    className="w-full rounded-2xl border border-ink/10 bg-white px-4 py-3 text-left transition hover:border-ink/20 hover:bg-ink/5"
-                  >
-                    <div className="flex items-center justify-between">
-                      <p className="text-sm font-semibold text-ink">{item.title}</p>
-                      <span className="text-xs text-ink/50">{item.time}</span>
-                    </div>
-                    <p className="text-xs text-ink/60">{item.note}</p>
-                  </button>
-                ))}
-              </div>
-            </div>
-          </section>
-
-          <section className="space-y-6">
-            <div
-              id="reflect"
-              className="rounded-[32px] border border-ink/10 bg-white/90 p-8 shadow-[0_30px_80px_-40px_rgba(15,23,42,0.45)]"
-            >
-              {!isReflecting ? (
-                <div className="text-center">
-                  <span className="inline-flex items-center gap-2 rounded-full bg-ink/5 px-4 py-1 text-xs uppercase tracking-[0.2em] text-ink/60">
-                    Voice first
-                  </span>
-                  <h2 className="mt-6 font-display text-3xl font-semibold text-ink">
-                    What's been on your mind lately?
-                  </h2>
-                  <p className="mt-3 text-sm text-ink/60">
-                    Tap the mic to begin. We'll capture the voice note and open the reflection form
-                    automatically.
-                  </p>
-                  <button
-                    onClick={() => setIsReflecting(true)}
-                    className="mx-auto mt-8 flex h-20 w-20 items-center justify-center rounded-full bg-ink text-white shadow-lg shadow-ink/20 transition hover:translate-y-[-2px]"
-                  >
-                    <Mic className="h-8 w-8" />
-                  </button>
-                </div>
-              ) : (
-                <div className="space-y-6">
-                  <div className="flex items-center gap-3">
-                    <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-ink text-white">
-                      <Mic className="h-5 w-5" />
-                    </div>
-                    <div>
-                      <p className="text-sm font-semibold text-ink">Voice capture active</p>
-                      <p className="text-xs text-ink/60">Share what you're noticing, then refine below.</p>
-                    </div>
-                  </div>
-                  <label className="text-xs uppercase tracking-[0.2em] text-ink/50" htmlFor="reflection">
-                    Reflection notes
+                  <label htmlFor="reflection" className="block text-sm font-semibold text-slate-900 mb-2">
+                    Your thoughts
                   </label>
                   <textarea
                     id="reflection"
                     value={reflection}
-                    onChange={(event) => setReflection(event.target.value)}
+                    onChange={(e) => setReflection(e.target.value)}
                     rows={6}
-                    className="w-full rounded-2xl border border-ink/10 bg-white px-4 py-3 text-sm text-ink shadow-sm outline-none transition focus:border-ink/30"
-                    placeholder="What felt heavy? What helped? What will you try next?"
+                    placeholder="What's on your mind?"
+                    className="w-full rounded-lg border border-slate-300 bg-white px-4 py-3 text-sm text-slate-900 focus:border-blue-400 focus:ring-1 focus:ring-blue-400 outline-none transition resize-none"
                   />
-                  <div className="flex flex-wrap items-center gap-3">
-                    <button className="inline-flex items-center gap-2 rounded-full bg-ink px-5 py-2 text-sm font-semibold text-white transition hover:bg-ink/90">
-                      <Wand2 className="h-4 w-4" />
-                      Save reflection
-                    </button>
-                    <button
-                      onClick={() => setIsReflecting(false)}
-                      className="inline-flex items-center gap-2 rounded-full border border-ink/15 px-5 py-2 text-sm font-semibold text-ink transition hover:bg-ink/5"
-                    >
-                      Finish
-                    </button>
-                  </div>
                 </div>
-              )}
-            </div>
-
-            <div id="tasks" className="grid gap-4 md:grid-cols-3">
-              {[
-                {
-                  title: 'Grounding',
-                  desc: 'Two-minute reset when anxiety spikes.',
-                },
-                {
-                  title: 'Pattern check',
-                  desc: 'Spot recurring stress loops gently.',
-                },
-                {
-                  title: 'Plan to task',
-                  desc: "Turn today's reflection into one doable step.",
-                },
-              ].map((card) => (
-                <div
-                  key={card.title}
-                  className="rounded-2xl border border-ink/10 bg-white/90 p-4 shadow-sm transition hover:border-ink/20"
-                >
-                  <p className="font-display text-base font-semibold text-ink">{card.title}</p>
-                  <p className="mt-2 text-xs text-ink/60">{card.desc}</p>
-                  <button className="mt-4 text-xs font-semibold text-ink/70 hover:text-ink">
-                    Try now -&gt;
+                <div className="flex gap-3">
+                  <button
+                    onClick={handleSave}
+                    disabled={isSaving}
+                    className="flex-1 inline-flex items-center justify-center gap-2 rounded-lg bg-blue-500 text-white px-5 py-2.5 font-medium hover:bg-blue-600 transition disabled:opacity-60"
+                  >
+                    <Send className="h-4 w-4" />
+                    {isSaving ? 'Saving...' : 'Save'}
+                  </button>
+                  <button
+                    onClick={() => {
+                      setIsReflecting(false)
+                      setReflection('')
+                    }}
+                    className="flex-1 rounded-lg border border-slate-300 text-slate-900 px-5 py-2.5 font-medium hover:bg-slate-50 transition"
+                  >
+                    Cancel
                   </button>
                 </div>
+              </div>
+            )}
+          </div>
+
+          <div className="rounded-xl bg-white border border-slate-200 p-6 shadow-sm">
+            <div className="flex items-center justify-between gap-3">
+              <h3 className="font-display text-xl font-semibold text-slate-900">Recent journal entries</h3>
+              <button
+                type="button"
+                onClick={() => refetch()}
+                className="rounded-lg border border-slate-300 px-3 py-1.5 text-xs font-semibold text-slate-700 hover:bg-slate-50 transition"
+              >
+                Refresh
+              </button>
+            </div>
+
+            {isLoadingJournals || isFetchingJournals ? (
+              <p className="mt-4 text-sm text-slate-600">Loading entries...</p>
+            ) : null}
+
+            {isJournalError ? (
+              <p className="mt-4 text-sm text-rose-600">Could not load journal entries right now.</p>
+            ) : null}
+
+            {!isLoadingJournals && !isJournalError && (journalsResponse?.items?.length ?? 0) === 0 ? (
+              <p className="mt-4 text-sm text-slate-600">No journal entries yet. Start with your first reflection above.</p>
+            ) : null}
+
+            <div className="mt-4 space-y-3">
+              {journalsResponse?.items?.map((entry) => (
+                <article key={entry.id} className="rounded-lg border border-slate-200 bg-slate-50 p-4">
+                  <div className="flex flex-wrap items-center justify-between gap-2">
+                    <p className="text-xs font-semibold uppercase tracking-wide text-slate-600">{entry.date}</p>
+                    <p className="text-xs text-slate-500">{new Date(entry.created_at).toLocaleString()}</p>
+                  </div>
+                  <p className="mt-2 text-sm text-slate-800 whitespace-pre-wrap">{entry.free_text}</p>
+                  {entry.mood ? <p className="mt-2 text-xs text-slate-600">Mood: {entry.mood}</p> : null}
+                </article>
               ))}
             </div>
-          </section>
+          </div>
         </div>
       </LayoutShell>
     </Protected>

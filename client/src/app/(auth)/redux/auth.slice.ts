@@ -8,6 +8,7 @@ const initialState: IAuthState = {
   tokenType: null,
   firstTime: null,
   isAuthenticated: false,
+  isHydrated: false,
   profile: null,
 }
 
@@ -24,6 +25,7 @@ export const authSlice = createSlice({
       state.tokenType = action.payload.token_type
       state.firstTime = action.payload.first_time ?? null
       state.isAuthenticated = true
+      state.isHydrated = true
 
       Cookies.set(PUBLIC_ACCESS_TOKEN, action.payload.access_token, {
         path: '/',
@@ -39,7 +41,14 @@ export const authSlice = createSlice({
       state.tokenType = null
       state.firstTime = null
       state.isAuthenticated = false
+      state.isHydrated = true
       state.profile = null
+    },
+
+    hydrateSession: (state, action: PayloadAction<string | null>) => {
+      state.accessToken = action.payload
+      state.isAuthenticated = Boolean(action.payload)
+      state.isHydrated = true
     },
 
     setProfile: (state, action: PayloadAction<IAuthState['profile']>) => {
@@ -48,5 +57,5 @@ export const authSlice = createSlice({
   },
 })
 
-export const { loginSuccess, logoutSuccess, setProfile } = authSlice.actions
+export const { loginSuccess, logoutSuccess, setProfile, hydrateSession } = authSlice.actions
 export default authSlice.reducer

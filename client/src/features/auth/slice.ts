@@ -1,5 +1,4 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import type { AuthResponse } from './api';
 
 type AuthState = {
   token: string | null;

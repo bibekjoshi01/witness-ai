@@ -4,12 +4,12 @@ import { IUserProfile, IUserProfileUpdatePayload } from './types'
 
 export const authAPISlice = rootAPI.injectEndpoints({
   endpoints: (builder) => ({
-    googleAuth: builder.mutation<
+    basicAuth: builder.mutation<
       { access_token: string; token_type: string; first_time?: boolean },
-      { id_token: string; timezone?: string }
+      { username: string; password: string }
     >({
       query: (data) => ({
-        url: '/auth/google',
+        url: '/auth/basic',
         method: 'POST',
         data,
       }),
@@ -35,7 +35,7 @@ export const authAPISlice = rootAPI.injectEndpoints({
 })
 
 export const {
-  useGoogleAuthMutation,
+  useBasicAuthMutation,
   useGetProfileQuery,
   useUpdateProfileMutation,
 } = authAPISlice

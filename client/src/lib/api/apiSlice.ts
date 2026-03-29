@@ -43,5 +43,6 @@ export const rootAPI = createApi({
     'Profile',
     'User',
     'Auth',
+    'Journal',
   ],
 })

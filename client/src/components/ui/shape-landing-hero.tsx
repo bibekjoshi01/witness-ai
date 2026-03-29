@@ -105,62 +105,34 @@ function HeroGeometric({
     <div
       className={cn(
         "relative min-h-screen w-full flex items-center justify-center overflow-hidden transition-colors duration-300",
-        isDark ? "bg-[#030303]" : "bg-[#f8fafc]"
+        isDark ? "bg-[#0b0d10]" : "bg-[#f8fafc]"
       )}
     >
       <div
         className={cn(
-          "absolute inset-0 blur-3xl",
+          "absolute inset-0",
           isDark
-            ? "bg-gradient-to-br from-cyan-500/[0.06] via-transparent to-emerald-500/[0.05]"
-            : "bg-gradient-to-br from-sky-500/[0.12] via-transparent to-emerald-500/[0.10]"
+            ? "bg-[radial-gradient(circle_at_20%_20%,rgba(16,185,129,0.10),transparent_35%),radial-gradient(circle_at_80%_10%,rgba(59,130,246,0.08),transparent_40%)]"
+            : "bg-[radial-gradient(circle_at_20%_20%,rgba(59,130,246,0.10),transparent_40%),radial-gradient(circle_at_80%_10%,rgba(16,185,129,0.10),transparent_40%)]"
         )}
       />
 
       <div className="absolute inset-0 overflow-hidden">
         <ElegantShape
-          delay={0.3}
-          width={600}
-          height={140}
-          rotate={12}
-          gradient="from-cyan-500/[0.15]"
-          className="left-[-10%] md:left-[-5%] top-[15%] md:top-[20%]"
-        />
-
-        <ElegantShape
-          delay={0.5}
-          width={500}
+          delay={0.25}
+          width={520}
           height={120}
-          rotate={-15}
-          gradient="from-emerald-500/[0.15]"
-          className="right-[-5%] md:right-[0%] top-[70%] md:top-[75%]"
+          rotate={10}
+          gradient={isDark ? "from-white/[0.08]" : "from-sky-500/[0.10]"}
+          className="left-[-15%] md:left-[-8%] top-[18%] md:top-[22%]"
         />
-
         <ElegantShape
-          delay={0.4}
-          width={300}
-          height={80}
-          rotate={-8}
-          gradient="from-sky-500/[0.15]"
-          className="left-[5%] md:left-[10%] bottom-[5%] md:bottom-[10%]"
-        />
-
-        <ElegantShape
-          delay={0.6}
-          width={200}
-          height={60}
-          rotate={20}
-          gradient="from-teal-500/[0.15]"
-          className="right-[15%] md:right-[20%] top-[10%] md:top-[15%]"
-        />
-
-        <ElegantShape
-          delay={0.7}
-          width={150}
-          height={40}
-          rotate={-25}
-          gradient="from-lime-500/[0.15]"
-          className="left-[20%] md:left-[25%] top-[5%] md:top-[10%]"
+          delay={0.45}
+          width={440}
+          height={110}
+          rotate={-12}
+          gradient={isDark ? "from-emerald-400/[0.10]" : "from-emerald-400/[0.12]"}
+          className="right-[-12%] md:right-[-6%] top-[62%] md:top-[68%]"
         />
       </div>
 
@@ -172,10 +144,10 @@ function HeroGeometric({
             initial="hidden"
             animate="visible"
             className={cn(
-              "inline-flex items-center gap-2 px-3 py-1 rounded-full mb-8 md:mb-12",
+              "inline-flex items-center gap-2 px-3 py-1 rounded-full mb-6",
               isDark
-                ? "bg-white/[0.03] border border-white/[0.08]"
-                : "bg-white/80 border border-slate-900/10"
+                ? "bg-white/[0.04] border border-white/[0.10]"
+                : "bg-white/90 border border-slate-900/10 shadow-sm"
             )}
           >
             <Circle className="h-2 w-2 fill-emerald-400/80 text-emerald-400/80" />
@@ -188,7 +160,7 @@ function HeroGeometric({
             initial="hidden"
             animate="visible"
           >
-            <h1 className="text-4xl sm:text-6xl md:text-8xl font-bold mb-6 md:mb-8 tracking-tight">
+            <h1 className="text-4xl sm:text-6xl md:text-7xl font-bold mb-6 md:mb-8 tracking-tight">
               <span
                 className={cn(
                   "bg-clip-text text-transparent",
@@ -204,8 +176,8 @@ function HeroGeometric({
                 className={cn(
                   "bg-clip-text text-transparent",
                   isDark
-                    ? "bg-gradient-to-r from-cyan-200 via-white/90 to-emerald-200"
-                    : "bg-gradient-to-r from-sky-700 via-slate-800 to-emerald-700"
+                    ? "bg-gradient-to-r from-sky-200 via-white/90 to-emerald-200"
+                    : "bg-gradient-to-r from-sky-700 via-slate-800 to-emerald-600"
                 )}
               >
                 {title2}
@@ -221,8 +193,8 @@ function HeroGeometric({
           >
             <p
               className={cn(
-                "text-base sm:text-lg md:text-xl mb-8 leading-relaxed font-light tracking-wide max-w-xl mx-auto px-4",
-                isDark ? "text-white/50" : "text-slate-700/85"
+                "text-base sm:text-lg md:text-xl mb-8 leading-relaxed font-light tracking-wide max-w-2xl mx-auto px-4",
+                isDark ? "text-white/55" : "text-slate-600"
               )}
             >
               {description}
@@ -235,10 +207,10 @@ function HeroGeometric({
             initial="hidden"
             animate="visible"
             className={cn(
-              "mx-auto w-full max-w-sm rounded-2xl p-2 backdrop-blur-md",
+              "mx-auto w-full max-w-md rounded-2xl p-2 backdrop-blur-md",
               isDark
                 ? "border border-white/15 bg-white/5"
-                : "border border-slate-900/10 bg-white/75"
+                : "border border-slate-900/10 bg-white/80 shadow-sm"
             )}
           >
             <img
@@ -246,7 +218,7 @@ function HeroGeometric({
               alt="Calm mountains and clouds"
               className={cn(
                 "h-32 w-full rounded-xl object-cover",
-                isDark ? "opacity-80" : "opacity-90"
+                isDark ? "opacity-80" : "opacity-95"
               )}
             />
           </motion.div>
@@ -257,7 +229,7 @@ function HeroGeometric({
         className={cn(
           "absolute inset-0 pointer-events-none",
           isDark
-            ? "bg-gradient-to-t from-[#030303] via-transparent to-[#030303]/80"
+            ? "bg-gradient-to-t from-[#0b0d10] via-transparent to-[#0b0d10]/70"
             : "bg-gradient-to-t from-slate-50 via-transparent to-white/80"
         )}
       />
