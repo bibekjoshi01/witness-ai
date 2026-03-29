@@ -1,7 +1,10 @@
-from fastapi import APIRouter, Depends, HTTPException
+import os
+from pathlib import Path
+from uuid import uuid4
+
+from fastapi import APIRouter, Depends, HTTPException, UploadFile, File, Request
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy import select
-from pydantic import EmailStr
 
 from app import models, schemas
 from app.auth import get_current_user
@@ -55,3 +58,38 @@ async def update_profile(
 
     await session.commit()
     return {"message": "Profile updated successfully."}
+
+
+@router.post("/picture", response_model=schemas.UserProfileOut)
+async def upload_profile_picture(
+    request: Request,
+    file: UploadFile = File(...),
+    user: models.User = Depends(get_current_user),
+    session: AsyncSession = Depends(get_session),
+):
+    if not file.content_type.startswith("image/"):
+        raise HTTPException(status_code=400, detail="Only image uploads are allowed.")
+
+    profile = await _ensure_profile(user, session)
+
+    media_dir = Path("media/profile_pictures")
+    media_dir.mkdir(parents=True, exist_ok=True)
+
+    ext = Path(file.filename).suffix or ".jpg"
+    filename = f"{uuid4().hex}{ext}"
+    filepath = media_dir / filename
+
+    content = await file.read()
+    # simple size guard ~5MB
+    if len(content) > 5 * 1024 * 1024:
+        raise HTTPException(status_code=400, detail="Image too large (max 5MB).")
+
+    with open(filepath, "wb") as f:
+        f.write(content)
+
+    base_url = str(request.base_url).rstrip("/")
+    profile.profile_picture = f"{base_url}/media/profile_pictures/{filename}"
+
+    await session.commit()
+    await session.refresh(profile)
+    return profile

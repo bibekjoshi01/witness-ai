@@ -22,7 +22,7 @@ async def generate_questions(
             models.DailyJournalEntry.date == today,
         )
     )
-    if existing.scalar_one_or_none():
+    if existing.scalars().first():
         return []
 
     questions = await generate_questions_for_user(session, user)

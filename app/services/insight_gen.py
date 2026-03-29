@@ -1,8 +1,6 @@
-import asyncio
 import datetime as dt
 from typing import List, Optional
 from sqlalchemy import select
-from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.orm import selectinload
 from langchain_core.prompts import PromptTemplate
 from langchain_core.output_parsers import PydanticOutputParser
@@ -87,7 +85,8 @@ async def generate_and_store_insights(entry_id: int, user_id: int) -> None:
                 models.DailyJournalEntry.id == entry_id
             )
         )
-        entry = entry_result.scalar_one_or_none()
+        # be lenient if duplicate rows slipped in; pick the first
+        entry = entry_result.scalars().first()
         if not entry:
             return
 
@@ -97,7 +96,7 @@ async def generate_and_store_insights(entry_id: int, user_id: int) -> None:
             .options(selectinload(models.User.profile))
             .where(models.User.id == user_id)
         )
-        user = user_result.scalar_one_or_none()
+        user = user_result.scalars().first()
         if not user:
             return
 

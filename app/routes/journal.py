@@ -76,7 +76,7 @@ async def list_journals(
     session: AsyncSession = Depends(get_session),
     start_date: dt.date | None = Query(None),
     end_date: dt.date | None = Query(None),
-    limit: int = Query(20, ge=1, le=100),
+    limit: int = Query(20, ge=1, le=500),
     offset: int = Query(0, ge=0),
     entry_id: int | None = Query(None),
 ):
