@@ -11,6 +11,13 @@ class JournalQuestionIn(BaseModel):
     model_config = ConfigDict(populate_by_name=True)
 
 
+class JournalQuestionOut(BaseModel):
+    question_text: str
+    question_schema: dict[str, Any] = Field(alias="schema")
+
+    model_config = ConfigDict(populate_by_name=True)
+
+
 class JournalCreateIn(BaseModel):
     date: dt.date
     free_text: Optional[str] = None

@@ -10,10 +10,7 @@ class Settings(BaseSettings):
     )
     jwt_secret: str = Field(default="change-me", description="JWT signing secret")
     jwt_expires_days: int = Field(default=30, description="JWT expiration in days")
-    llm_provider: str = Field(default="stub", description="LLM provider name")
-    llm_model: str = Field(default="stub-model", description="LLM model id")
     llm_api_key: str | None = Field(default=None, description="LLM provider API key")
-    scheduler_enabled: bool = Field(default=True)
     app_timezone: str = Field(default="UTC")
     google_client_id: str = Field(
         description="Google OAuth client id"

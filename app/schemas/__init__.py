@@ -4,6 +4,7 @@ from app.schemas.journal import (
     JournalOut,
     JournalListOut,
     JournalCreateOut,
+    JournalQuestionOut,
 )
 from app.schemas.profile import UserProfileOut, UserProfileUpdate, UserProfileUpdateOut
 
@@ -14,6 +15,7 @@ __all__ = [
     "JournalCreateIn",
     "JournalOut",
     "JournalCreateOut",
+    "JournalQuestionOut",
     "UserProfileUpdateOut",
     "JournalListOut",
     "UserProfileOut",

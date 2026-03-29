@@ -42,5 +42,4 @@ pytest -q
 ## Notes
 - DB: defaults to SQLite; set `DATABASE_URL` for Postgres.
 - LLM: set `LLM_PROVIDER`, `LLM_MODEL`, `LLM_API_KEY`; falls back to stub if missing.
-- Scheduler: enabled by `SCHEDULER_ENABLED`; runs daily/weekly cron inside app process.
 - Auth: set `GOOGLE_CLIENT_ID` for Google ID token verification.
