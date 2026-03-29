@@ -7,6 +7,7 @@ import { PUBLIC_ACCESS_TOKEN } from '@/constants/public/tokens'
 import { AppDispatch } from '@/lib/redux/store'
 import { hydrateSession } from '@/app/(auth)/redux/auth.slice'
 import { ThemeProvider } from '@/lib/providers/theme-provider'
+import ToasterProvider from '@/lib/providers/toaster-provider'
 
 function AuthHydrator() {
   const dispatch = useDispatch<AppDispatch>()
@@ -25,6 +26,7 @@ export function Providers({ children }: PropsWithChildren) {
       <Provider store={store}>
         <AuthHydrator />
         {children}
+        <ToasterProvider />
       </Provider>
     </ThemeProvider>
   )

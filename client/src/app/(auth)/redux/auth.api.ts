@@ -31,6 +31,22 @@ export const authAPISlice = rootAPI.injectEndpoints({
       }),
       invalidatesTags: ['Profile'],
     }),
+    uploadProfilePicture: builder.mutation<IUserProfile, File>({
+      query: (file) => {
+        const formData = new FormData()
+        formData.append('file', file)
+
+        return {
+          url: '/profile/picture',
+          method: 'POST',
+          data: formData,
+          headers: {
+            'Content-Type': 'multipart/form-data',
+          },
+        }
+      },
+      invalidatesTags: ['Profile'],
+    }),
   }),
 })
 
@@ -38,6 +54,7 @@ export const {
   useBasicAuthMutation,
   useGetProfileQuery,
   useUpdateProfileMutation,
+  useUploadProfilePictureMutation,
 } = authAPISlice
 
 

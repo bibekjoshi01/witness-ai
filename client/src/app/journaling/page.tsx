@@ -212,15 +212,15 @@ export default function JournalingPage() {
 
   return (
     <Protected>
-      <LayoutShell title="Journaling" subtitle="Your space for gentle reflection.">
+      <LayoutShell title="Journaling">
         <div className="mx-auto w-full max-w-6xl space-y-6">
-          <div className="rounded-2xl border border-slate-20 p-8 dark:border-white/10 dark:bg-slate-900/45 dark:backdrop-blur-xl">
-              <p className="text-sm font-medium uppercase tracking-wide text-slate-600 dark:text-slate-400">Daily Reflection Calendar</p>
-              <h2 className="mt-2 font-display text-3xl font-semibold text-slate-900 dark:text-slate-100">
+          <div className="rounded-2xl border border-[var(--wa-border)] p-8 bg-[var(--wa-panel)]">
+              <p className="text-sm font-medium uppercase tracking-wide text-[var(--wa-muted)]">Daily Reflection Calendar</p>
+              <h2 className="mt-2 font-display text-3xl font-semibold text-[var(--wa-text)]">
                 Pick a date to view or submit
               </h2>
 
-              <div className="mt-6 w-full rounded-3xl border border-slate-200/80 bg-gradient-to-b from-white to-slate-50 p-5 shadow-md shadow-slate-200/60 dark:border-white/10 dark:from-slate-900/60 dark:to-slate-800/45 dark:shadow-none">
+              <div className="mt-6 w-full rounded-3xl border border-[var(--wa-border)] bg-[var(--wa-panel)] p-5 shadow-md">
                 <div className="flex flex-wrap items-center justify-between gap-3">
                   <div className="flex items-center gap-2">
                     <select
@@ -229,7 +229,7 @@ export default function JournalingPage() {
                         const nextMonth = Number(event.target.value)
                         setDisplayedMonth(new Date(displayedMonth.getFullYear(), nextMonth, 1))
                       }}
-                      className="rounded-lg border border-slate-300 bg-white px-2.5 py-1.5 text-xs font-semibold text-slate-700 outline-none transition hover:bg-slate-50 focus:border-sky-400 focus:ring-2 focus:ring-sky-100 dark:border-white/15 dark:bg-slate-800/60 dark:text-slate-200 dark:hover:bg-slate-700/70 dark:focus:border-sky-400 dark:focus:ring-sky-900/40"
+                      className="rounded-lg border border-[var(--wa-border)] bg-[var(--wa-panel)] px-2.5 py-1.5 text-xs font-semibold text-[var(--wa-text)] outline-none transition hover:bg-[var(--wa-panel-soft)] focus:border-[var(--wa-accent)] focus:ring-2 focus:ring-[var(--wa-accent-soft)]"
                       aria-label="Select month"
                     >
                       {monthNames.map((month, index) => (
@@ -244,7 +244,7 @@ export default function JournalingPage() {
                         const nextYear = Number(event.target.value)
                         setDisplayedMonth(new Date(nextYear, displayedMonth.getMonth(), 1))
                       }}
-                      className="rounded-lg border border-slate-300 bg-white px-2.5 py-1.5 text-xs font-semibold text-slate-700 outline-none transition hover:bg-slate-50 focus:border-sky-400 focus:ring-2 focus:ring-sky-100 dark:border-white/15 dark:bg-slate-800/60 dark:text-slate-200 dark:hover:bg-slate-700/70 dark:focus:border-sky-400 dark:focus:ring-sky-900/40"
+                      className="rounded-lg border border-[var(--wa-border)] bg-[var(--wa-panel)] px-2.5 py-1.5 text-xs font-semibold text-[var(--wa-text)] outline-none transition hover:bg-[var(--wa-panel-soft)] focus:border-[var(--wa-accent)] focus:ring-2 focus:ring-[var(--wa-accent-soft)]"
                       aria-label="Select year"
                     >
                       {selectableYears.map((year) => (
@@ -256,13 +256,18 @@ export default function JournalingPage() {
                   </div>
                 </div>
 
-                <div className="mt-4 grid grid-cols-7 gap-1.5 text-center text-sm font-semibold uppercase tracking-wide text-slate-500 dark:text-slate-400">
+                <div className="mt-4 grid grid-cols-7 justify-items-center gap-1.5 text-center text-sm font-semibold uppercase tracking-wide text-[var(--wa-muted)]">
                   {['Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa', 'Su'].map((day) => (
-                    <span key={day} className="rounded-md bg-slate-100 py-2 dark:bg-slate-800/70">{day}</span>
+                    <span
+                      key={day}
+                      className="w-16 rounded-md border border-[var(--wa-border)] bg-[var(--wa-panel-soft)] py-2"
+                    >
+                      {day}
+                    </span>
                   ))}
                 </div>
 
-                <div className="mt-2 grid grid-cols-7 gap-1.5">
+                <div className="mt-2 grid grid-cols-7 justify-items-center gap-1.5">
                   {calendarDays.map((day) => {
                     const dateKey = toDateKey(day.date)
                     const isSelected = dateKey === selectedDate
@@ -284,15 +289,17 @@ export default function JournalingPage() {
                             setIsDateModalOpen(true)
                           }
                         }}
-                        className={`group relative h-16 w-16 rounded-xl border text-lg font-semibold transition focus:outline-none focus-visible:ring-2 focus-visible:ring-sky-500 ${
+                        className={`group relative h-16 w-16 rounded-xl border text-lg font-semibold transition focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--wa-accent)] ${
                           isSelected
                             ? isFilled
                               ? 'border-emerald-700 bg-emerald-600 text-white shadow-md shadow-emerald-200/70 dark:border-emerald-500 dark:bg-emerald-600 dark:shadow-none'
-                              : 'border-slate-900 bg-slate-900 text-white shadow-md shadow-slate-300/70 dark:border-sky-500 dark:bg-sky-600 dark:shadow-none'
+                              : isToday
+                                ? 'border-amber-700 bg-amber-600 text-white shadow-md shadow-amber-200/70 dark:border-amber-500 dark:bg-amber-600 dark:shadow-none'
+                                : 'border-slate-900 bg-slate-900 text-white shadow-md shadow-slate-300/70 dark:border-[var(--wa-accent)] dark:bg-[var(--wa-accent)] dark:shadow-none'
                             : isFilled
-                              ? 'border-emerald-200 bg-emerald-100 text-emerald-800 hover:bg-emerald-200 dark:border-emerald-800 dark:bg-emerald-900/40 dark:text-emerald-300 dark:hover:bg-emerald-900/60'
+                              ? 'border-emerald-400 bg-emerald-100 text-emerald-900 hover:bg-emerald-200 dark:border-emerald-700 dark:bg-emerald-900/50 dark:text-emerald-300 dark:hover:bg-emerald-900/70'
                             : isToday
-                              ? 'border-sky-300 bg-sky-100 text-sky-800 hover:bg-sky-200 dark:border-sky-700 dark:bg-sky-900/50 dark:text-sky-300 dark:hover:bg-sky-900/70'
+                              ? 'border-amber-300 bg-amber-100 text-amber-800 hover:bg-amber-200 dark:border-amber-700 dark:bg-amber-900/50 dark:text-amber-300 dark:hover:bg-amber-900/70'
                             : !day.isCurrentMonth
                               ? 'border-slate-100 bg-slate-50/60 text-slate-400 hover:bg-slate-100 dark:border-slate-800 dark:bg-slate-900 dark:text-slate-500 dark:hover:bg-slate-800'
                             : isWeekend
@@ -303,7 +310,7 @@ export default function JournalingPage() {
                       >
                         {day.date.getDate()}
                         {isToday && !isSelected ? (
-                          <span className="absolute bottom-1.5 left-1/2 h-1.5 w-1.5 -translate-x-1/2 rounded-full bg-sky-500" />
+                          <span className="absolute bottom-1.5 left-1/2 h-1.5 w-1.5 -translate-x-1/2 rounded-full bg-[var(--wa-accent)]" />
                         ) : null}
                       </button>
                     )
@@ -312,7 +319,7 @@ export default function JournalingPage() {
 
                 <div className="mt-4 flex flex-wrap items-center gap-3 text-xs text-slate-600 dark:text-slate-400">
                   <span className="inline-flex items-center gap-1.5">
-                    <span className="h-2.5 w-2.5 rounded-full bg-sky-500" />
+                    <span className="h-2.5 w-2.5 rounded-full bg-[var(--wa-accent)]" />
                     Today
                   </span>
                   <span className="inline-flex items-center gap-1.5">
@@ -320,7 +327,7 @@ export default function JournalingPage() {
                     Filled day
                   </span>
                   <span className="inline-flex items-center gap-1.5">
-                    <span className="h-2.5 w-2.5 rounded-full bg-slate-900 dark:bg-sky-600" />
+                    <span className="h-2.5 w-2.5 rounded-full bg-slate-900 dark:bg-[var(--wa-accent)]" />
                     Selected date
                   </span>
                 </div>
@@ -328,14 +335,14 @@ export default function JournalingPage() {
             </div>
 
           {isDateModalOpen ? (
-            <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-2 md:p-6" role="dialog" aria-modal="true">
-              <div className="h-[92vh] w-[96vw] max-w-[1400px] overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-2xl dark:border-white/10 dark:bg-slate-900/70 dark:backdrop-blur-xl">
-                <div className="flex items-center justify-between gap-3 border-b border-slate-200 px-5 py-4 md:px-8 md:py-5 dark:border-white/10">
-                  <h3 className="font-display text-2xl font-semibold text-slate-900 md:text-3xl dark:text-slate-100">Selected Date Entry</h3>
+            <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/45 p-2 md:p-6" role="dialog" aria-modal="true">
+              <div className="h-[92vh] w-[96vw] max-w-[1320px] overflow-hidden rounded-2xl border border-[var(--wa-border)] bg-[var(--wa-panel)] shadow-xl">
+                <div className="flex items-center justify-between gap-3 border-b border-[var(--wa-border)] px-5 py-4 md:px-8 md:py-5">
+                  <h3 className="font-display text-2xl font-semibold text-[var(--wa-text)] md:text-3xl">Selected Date Entry</h3>
                   <button
                     type="button"
                     onClick={() => setIsDateModalOpen(false)}
-                    className="rounded-xl border border-slate-300 bg-white p-2.5 text-slate-700 transition hover:bg-slate-50 dark:border-white/15 dark:bg-slate-800/65 dark:text-slate-200 dark:hover:bg-slate-700/75"
+                    className="rounded-lg border border-[var(--wa-border)] bg-[var(--wa-panel)] p-2.5 text-[var(--wa-muted)] transition hover:bg-[var(--wa-panel-soft)] hover:text-[var(--wa-text)]"
                     aria-label="Close entry popup"
                   >
                     <X className="h-4 w-4" />
@@ -343,12 +350,12 @@ export default function JournalingPage() {
                 </div>
 
                 <div className="h-[calc(92vh-88px)] overflow-y-auto px-5 py-5 md:px-8 md:py-6">
-                  <div className="flex items-center justify-between gap-3 rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3 dark:border-slate-700 dark:bg-slate-800">
-                    <p className="text-base font-semibold text-slate-700 md:text-lg dark:text-slate-300">{new Date(selectedDate).toLocaleDateString()}</p>
+                  <div className="flex items-center justify-between gap-3 rounded-xl border border-[var(--wa-border)] bg-[var(--wa-panel-soft)] px-4 py-3">
+                    <p className="text-base font-semibold text-[var(--wa-text)] md:text-lg">{new Date(selectedDate).toLocaleDateString()}</p>
                     <button
                       type="button"
                       onClick={() => refetchByDate()}
-                      className="inline-flex items-center gap-2 rounded-xl border border-slate-300 bg-white px-3.5 py-2 text-sm font-semibold text-slate-700 transition hover:bg-slate-50 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-300 dark:hover:bg-slate-700"
+                      className="inline-flex items-center gap-2 rounded-lg border border-[var(--wa-border)] bg-[var(--wa-panel)] px-3.5 py-2 text-sm font-semibold text-[var(--wa-text)] transition hover:bg-[var(--wa-panel-soft)]"
                     >
                       <RefreshCcw className="h-4 w-4" />
                       Refresh
@@ -356,7 +363,7 @@ export default function JournalingPage() {
                   </div>
 
                   {isFetchingByDate ? (
-                    <p className="mt-4 text-base text-slate-600 dark:text-slate-400">Loading entry...</p>
+                    <p className="mt-4 text-base text-[var(--wa-muted)]">Loading entry...</p>
                   ) : null}
 
                   {byDateError && !isNoEntryForDate ? (
@@ -364,20 +371,20 @@ export default function JournalingPage() {
                   ) : null}
 
                   {isNoEntryForDate ? (
-                    <p className="mt-4 text-base text-slate-600 dark:text-slate-400">No entry yet for this date.</p>
+                    <p className="mt-4 text-base text-[var(--wa-muted)]">No entry yet for this date.</p>
                   ) : null}
 
                   {hasEntryForDate && journalByDate ? (
-                    <article className="mt-4 rounded-2xl border border-slate-200 bg-slate-50 p-5 md:p-6 dark:border-slate-700 dark:bg-slate-800">
+                    <article className="mt-4 rounded-xl border border-[var(--wa-border)] bg-[var(--wa-panel-soft)] p-5 md:p-6">
                     <div className="flex flex-wrap items-center justify-between gap-2">
-                      <p className="text-sm font-semibold uppercase tracking-wide text-slate-600 dark:text-slate-400">{journalByDate.date}</p>
-                      <p className="text-sm text-slate-500 dark:text-slate-500">{new Date(journalByDate.created_at).toLocaleString()}</p>
+                      <p className="text-sm font-semibold uppercase tracking-wide text-[var(--wa-muted)]">{journalByDate.date}</p>
+                      <p className="text-sm text-[var(--wa-muted)]">{new Date(journalByDate.created_at).toLocaleString()}</p>
                     </div>
-                    <p className="mt-3 text-base leading-relaxed text-slate-800 whitespace-pre-wrap md:text-lg dark:text-slate-200">{journalByDate.free_text}</p>
+                    <p className="mt-3 whitespace-pre-wrap text-base leading-relaxed text-[var(--wa-text)] md:text-lg">{journalByDate.free_text}</p>
 
                     <div className="mt-6 grid grid-cols-1 gap-6 lg:grid-cols-2">
                       <section>
-                        <p className="text-sm font-semibold uppercase tracking-wide text-slate-600 dark:text-slate-400">Insights</p>
+                        <p className="text-sm font-semibold uppercase tracking-wide text-[var(--wa-muted)]">Insights</p>
                         {Array.isArray(journalByDate.insights) && journalByDate.insights.length ? (
                           <div className="mt-3 space-y-3">
                             {journalByDate.insights.map((item, index) => {
@@ -389,21 +396,21 @@ export default function JournalingPage() {
                                 : []
 
                               return (
-                                <div key={`modal-insight-${index}`} className="rounded-xl border border-slate-200 bg-white p-4 md:p-5 dark:border-slate-700 dark:bg-slate-900">
+                                <div key={`modal-insight-${index}`} className="rounded-lg border border-[var(--wa-border)] bg-[var(--wa-panel)] p-4 md:p-5">
                                   {title ? (
-                                    <p className="text-lg font-semibold text-slate-900 dark:text-slate-100">{title}</p>
+                                    <p className="text-lg font-semibold text-[var(--wa-text)]">{title}</p>
                                   ) : null}
                                   {summary ? (
-                                    <p className="mt-2 text-base leading-relaxed text-slate-700 dark:text-slate-300">{summary}</p>
+                                    <p className="mt-2 text-base leading-relaxed text-[var(--wa-text)]">{summary}</p>
                                   ) : (
-                                    <p className="mt-2 text-base leading-relaxed text-slate-700 dark:text-slate-300">{formatListValue(item)}</p>
+                                    <p className="mt-2 text-base leading-relaxed text-[var(--wa-text)]">{formatListValue(item)}</p>
                                   )}
                                   {tags.length ? (
                                     <div className="mt-3 flex flex-wrap gap-2">
                                       {tags.map((tag, tagIndex) => (
                                         <span
                                           key={`modal-insight-tag-${index}-${tagIndex}`}
-                                          className="rounded-full border border-slate-300 px-2.5 py-1 text-xs font-medium text-slate-600 dark:border-slate-600 dark:text-slate-300"
+                                          className="rounded-full border border-[var(--wa-border)] px-2.5 py-1 text-xs font-medium text-[var(--wa-muted)]"
                                         >
                                           {tag}
                                         </span>
@@ -415,12 +422,12 @@ export default function JournalingPage() {
                             })}
                           </div>
                         ) : (
-                          <p className="mt-3 text-sm text-slate-500 dark:text-slate-400">No insights for this entry.</p>
+                          <p className="mt-3 text-sm text-[var(--wa-muted)]">No insights for this entry.</p>
                         )}
                       </section>
 
                       <section>
-                        <p className="text-sm font-semibold uppercase tracking-wide text-slate-600 dark:text-slate-400">Micro Actions</p>
+                        <p className="text-sm font-semibold uppercase tracking-wide text-[var(--wa-muted)]">Micro Actions</p>
                         {Array.isArray(journalByDate.micro_actions) && journalByDate.micro_actions.length ? (
                           <div className="mt-3 space-y-3">
                             {journalByDate.micro_actions.map((item, index) => {
@@ -430,8 +437,8 @@ export default function JournalingPage() {
                               const dueText = formatDueDays(actionItem?.due_days)
 
                               return (
-                                <div key={`modal-micro-action-${index}`} className="rounded-xl border border-slate-200 bg-white p-4 md:p-5 dark:border-slate-700 dark:bg-slate-900">
-                                  <p className="text-base leading-relaxed text-slate-800 md:text-lg dark:text-slate-200">{actionText ?? formatListValue(item)}</p>
+                                <div key={`modal-micro-action-${index}`} className="rounded-lg border border-[var(--wa-border)] bg-[var(--wa-panel)] p-4 md:p-5">
+                                  <p className="text-base leading-relaxed text-[var(--wa-text)] md:text-lg">{actionText ?? formatListValue(item)}</p>
                                   {(status || dueText) ? (
                                     <div className="mt-3 flex flex-wrap gap-2">
                                       {status ? (
@@ -440,7 +447,7 @@ export default function JournalingPage() {
                                         </span>
                                       ) : null}
                                       {dueText ? (
-                                        <span className="rounded-full border border-slate-300 px-2.5 py-1 text-xs font-medium text-slate-600 dark:border-slate-600 dark:text-slate-300">
+                                        <span className="rounded-full border border-[var(--wa-border)] px-2.5 py-1 text-xs font-medium text-[var(--wa-muted)]">
                                           {dueText}
                                         </span>
                                       ) : null}
@@ -451,7 +458,7 @@ export default function JournalingPage() {
                             })}
                           </div>
                         ) : (
-                          <p className="mt-3 text-sm text-slate-500 dark:text-slate-400">No micro actions for this entry.</p>
+                          <p className="mt-3 text-sm text-[var(--wa-muted)]">No micro actions for this entry.</p>
                         )}
                       </section>
                     </div>

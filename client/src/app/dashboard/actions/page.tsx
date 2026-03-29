@@ -79,24 +79,24 @@ export default function ActionsPage() {
         <div className="mx-auto w-full max-w-6xl space-y-6">
           {/* Stats Overview */}
           <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
-            <div className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm dark:border-slate-800 dark:bg-slate-900">
+            <div className="rounded-2xl border border-[var(--wa-border)] bg-[var(--wa-panel)] p-6 shadow-sm">
               <div className="flex items-center justify-between">
                 <div>
-                  <p className="text-sm font-medium uppercase tracking-wide text-slate-600 dark:text-slate-400">
+                  <p className="text-sm font-medium uppercase tracking-wide text-[var(--wa-muted)]">
                     Today's Tasks
                   </p>
-                  <p className="mt-2 font-display text-3xl font-semibold text-slate-900 dark:text-slate-100">
+                  <p className="mt-2 font-display text-3xl font-semibold text-[var(--wa-text)]">
                     {totalCount}
                   </p>
                 </div>
-                <BarChart3 className="h-8 w-8 text-slate-400 dark:text-slate-600" />
+                <BarChart3 className="h-8 w-8 text-[var(--wa-muted)]" />
               </div>
             </div>
 
-            <div className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm dark:border-slate-800 dark:bg-slate-900">
+            <div className="rounded-2xl border border-[var(--wa-border)] bg-[var(--wa-panel)] p-6 shadow-sm">
               <div className="flex items-center justify-between">
                 <div>
-                  <p className="text-sm font-medium uppercase tracking-wide text-slate-600 dark:text-slate-400">
+                  <p className="text-sm font-medium uppercase tracking-wide text-[var(--wa-muted)]">
                     Completed
                   </p>
                   <p className="mt-2 font-display text-3xl font-semibold text-emerald-600 dark:text-emerald-400">
@@ -107,28 +107,28 @@ export default function ActionsPage() {
               </div>
             </div>
 
-            <div className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm dark:border-slate-800 dark:bg-slate-900">
+            <div className="rounded-2xl border border-[var(--wa-border)] bg-[var(--wa-panel)] p-6 shadow-sm">
               <div className="flex items-center justify-between">
                 <div>
-                  <p className="text-sm font-medium uppercase tracking-wide text-slate-600 dark:text-slate-400">
+                  <p className="text-sm font-medium uppercase tracking-wide text-[var(--wa-muted)]">
                     Progress
                   </p>
-                  <p className="mt-2 font-display text-3xl font-semibold text-sky-600 dark:text-sky-400">
+                  <p className="mt-2 font-display text-3xl font-semibold text-[var(--wa-accent)]">
                     {completionPercentage}%
                   </p>
                 </div>
-                <TrendingUp className="h-8 w-8 text-sky-400 dark:text-sky-500" />
+                <TrendingUp className="h-8 w-8 text-[var(--wa-accent)]" />
               </div>
             </div>
           </div>
 
           {/* Today's Actions */}
-          <div className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm dark:border-slate-800 dark:bg-slate-900">
+          <div className="rounded-2xl border border-[var(--wa-border)] bg-[var(--wa-panel)] p-6 shadow-sm">
             <div className="mb-6">
-              <p className="text-sm font-medium uppercase tracking-wide text-slate-600 dark:text-slate-400">
+              <p className="text-sm font-medium uppercase tracking-wide text-[var(--wa-muted)]">
                 Today's Focus
               </p>
-              <h2 className="mt-2 font-display text-2xl font-semibold text-slate-900 dark:text-slate-100">
+              <h2 className="mt-2 font-display text-2xl font-semibold text-[var(--wa-text)]">
                 Action Items
               </h2>
             </div>
@@ -152,7 +152,7 @@ export default function ActionsPage() {
                       className={`font-semibold ${
                         action.completed
                           ? 'line-through text-slate-500 dark:text-slate-400'
-                          : 'text-slate-900 dark:text-slate-100'
+                          : 'text-[var(--wa-text)]'
                       }`}
                     >
                       {action.title}
@@ -165,7 +165,7 @@ export default function ActionsPage() {
                       >
                         {action.priority}
                       </span>
-                      <span className="text-xs text-slate-500 dark:text-slate-400">{action.dueTime}</span>
+                      <span className="text-xs text-[var(--wa-muted)]">{action.dueTime}</span>
                     </div>
                   </div>
                   {action.priority === 'high' && !action.completed && (
@@ -179,19 +179,19 @@ export default function ActionsPage() {
           {/* Charts Placeholder Section */}
           <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
             {/* Chart 1 */}
-            <div className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm dark:border-slate-800 dark:bg-slate-900">
+            <div className="rounded-2xl border border-[var(--wa-border)] bg-[var(--wa-panel)] p-6 shadow-sm">
               <div className="mb-6">
-                <p className="text-sm font-medium uppercase tracking-wide text-slate-600 dark:text-slate-400">
+                <p className="text-sm font-medium uppercase tracking-wide text-[var(--wa-muted)]">
                   Analytics
                 </p>
-                <h3 className="mt-2 font-display text-xl font-semibold text-slate-900 dark:text-slate-100">
+                <h3 className="mt-2 font-display text-xl font-semibold text-[var(--wa-text)]">
                   Weekly Progress
                 </h3>
               </div>
-              <div className="flex h-48 items-center justify-center rounded-xl border border-dashed border-slate-300 bg-slate-50 dark:border-slate-700 dark:bg-slate-800">
+              <div className="flex h-48 items-center justify-center rounded-xl border border-dashed border-[var(--wa-border)] bg-[var(--wa-panel-soft)]">
                 <div className="text-center">
-                  <BarChart3 className="mx-auto h-8 w-8 text-slate-400 dark:text-slate-600" />
-                  <p className="mt-2 text-sm text-slate-500 dark:text-slate-400">
+                  <BarChart3 className="mx-auto h-8 w-8 text-[var(--wa-muted)]" />
+                  <p className="mt-2 text-sm text-[var(--wa-muted)]">
                     Chart visualization coming soon
                   </p>
                 </div>
@@ -199,19 +199,19 @@ export default function ActionsPage() {
             </div>
 
             {/* Chart 2 */}
-            <div className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm dark:border-slate-800 dark:bg-slate-900">
+            <div className="rounded-2xl border border-[var(--wa-border)] bg-[var(--wa-panel)] p-6 shadow-sm">
               <div className="mb-6">
-                <p className="text-sm font-medium uppercase tracking-wide text-slate-600 dark:text-slate-400">
+                <p className="text-sm font-medium uppercase tracking-wide text-[var(--wa-muted)]">
                   Insights
                 </p>
-                <h3 className="mt-2 font-display text-xl font-semibold text-slate-900 dark:text-slate-100">
+                <h3 className="mt-2 font-display text-xl font-semibold text-[var(--wa-text)]">
                   Completion Trends
                 </h3>
               </div>
-              <div className="flex h-48 items-center justify-center rounded-xl border border-dashed border-slate-300 bg-slate-50 dark:border-slate-700 dark:bg-slate-800">
+              <div className="flex h-48 items-center justify-center rounded-xl border border-dashed border-[var(--wa-border)] bg-[var(--wa-panel-soft)]">
                 <div className="text-center">
-                  <TrendingUp className="mx-auto h-8 w-8 text-slate-400 dark:text-slate-600" />
-                  <p className="mt-2 text-sm text-slate-500 dark:text-slate-400">
+                  <TrendingUp className="mx-auto h-8 w-8 text-[var(--wa-muted)]" />
+                  <p className="mt-2 text-sm text-[var(--wa-muted)]">
                     Chart visualization coming soon
                   </p>
                 </div>

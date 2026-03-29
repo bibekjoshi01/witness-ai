@@ -6,23 +6,50 @@
 
 :root {
   color-scheme: light;
+
+  /* Core color palette */
+  --wa-bg: #f3f3f3;                 /* VS Code light canvas */
+  --wa-sidebar: #f8f8f8;            /* VS Code light sidebar */
+  --wa-panel: #ffffff;              /* Card surfaces */
+  --wa-panel-soft: #f0f0f0;         /* Soft panel variant */
+  --wa-border: #d4d4d4;             /* Borders */
+  --wa-text: #1f2328;               /* Primary text */
+  --wa-muted: #4b5563;              /* Secondary text */
+  --wa-accent: #a16207;             /* Stone-friendly amber */
+  --wa-accent-strong: #854d0e;      /* Deeper amber for hover */
+  --wa-accent-soft: rgba(161, 98, 7, 0.16);  /* Accent tint */
+  --wa-success: #2ea043;            /* Success accent */
+  --wa-success-soft: rgba(46, 160, 67, 0.14); /* Success tint */
+  --wa-status-negative: #F85149;    /* Crimson - negative trends/decline */
 }
 
 .dark {
   color-scheme: dark;
+
+  --wa-bg: #1e1e1e;                 /* VS Code dark canvas */
+  --wa-sidebar: #252526;            /* VS Code dark sidebar */
+  --wa-panel: #2d2d30;              /* Card surfaces */
+  --wa-panel-soft: #333337;         /* Soft panel variant */
+  --wa-border: #3c3c3c;             /* Borders */
+  --wa-text: #d4d4d4;               /* Primary text */
+  --wa-muted: #b3b3b3;              /* Secondary text */
+  --wa-accent: #d6a85f;             /* Warm amber for dark mode */
+  --wa-accent-strong: #f0c77a;      /* Brighter amber hover */
+  --wa-accent-soft: rgba(214, 168, 95, 0.24);  /* Accent tint */
+  --wa-success: #4ec9b0;            /* Success accent */
+  --wa-success-soft: rgba(78, 201, 176, 0.22); /* Success tint */
 }
 
 body {
   @apply bg-mist text-ink font-body dark:bg-slate-950 dark:text-slate-100;
-  background-image: theme('backgroundImage.soft-gradient');
+  background-image: none;
   min-height: 100vh;
+  font-size: 16px;
+  line-height: 1.6;
 }
 
 .dark body {
-  background-image:
-    radial-gradient(circle at 15% 12%, rgba(56, 189, 248, 0.16), transparent 34%),
-    radial-gradient(circle at 82% 4%, rgba(16, 185, 129, 0.14), transparent 30%),
-    radial-gradient(circle at 50% 78%, rgba(59, 130, 246, 0.12), transparent 36%);
+  background-image: none;
 }
 
 .card {

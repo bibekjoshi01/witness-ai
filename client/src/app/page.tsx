@@ -14,6 +14,7 @@ export default function LandingPage() {
   const [mounted, setMounted] = useState(false)
   const { theme, resolvedTheme, setTheme } = useTheme()
   const currentTheme = theme === 'system' ? resolvedTheme : theme
+  const effectiveTheme = mounted ? currentTheme : 'light'
   const token = useSelector((s: RootState) => s.auth.accessToken)
   const profile = useSelector((s: RootState) => s.auth.profile)
 
@@ -32,13 +33,13 @@ export default function LandingPage() {
         title1="See What Your"
         title2="Mind Has Been Telling You"
         description="A calm way to understand your patterns, one daily check-in at a time."
-        theme={currentTheme === 'dark' ? 'dark' : 'light'}
+        theme={effectiveTheme === 'dark' ? 'dark' : 'light'}
       />
 
       <div className="absolute inset-x-4 top-6 z-20 flex items-start justify-between md:inset-x-8">
         <h2
           className={
-            currentTheme === 'dark'
+            effectiveTheme === 'dark'
               ? 'text-white/90 text-lg font-semibold tracking-wide'
               : 'text-slate-900 text-lg font-semibold tracking-wide'
           }
@@ -48,20 +49,20 @@ export default function LandingPage() {
         <div className="flex items-center gap-2">
           <button
             className={
-              currentTheme === 'dark'
+              effectiveTheme === 'dark'
                 ? 'inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/5 px-3 py-2 text-sm text-white/80 backdrop-blur-md hover:bg-white/10 transition'
                 : 'inline-flex items-center gap-2 rounded-full border border-slate-900/15 bg-white/70 px-3 py-2 text-sm text-slate-800 backdrop-blur-md hover:bg-white transition'
             }
-            onClick={() => setTheme(currentTheme === 'dark' ? 'light' : 'dark')}
+            onClick={() => setTheme(effectiveTheme === 'dark' ? 'light' : 'dark')}
           >
-            {mounted && currentTheme === 'dark' ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
-            {mounted && currentTheme === 'dark' ? 'Light' : 'Dark'}
+            {mounted && effectiveTheme === 'dark' ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
+            {mounted && effectiveTheme === 'dark' ? 'Light' : 'Dark'}
           </button>
 
           {!token ? (
             <button
               className={
-                currentTheme === 'dark'
+                effectiveTheme === 'dark'
                   ? 'rounded-full bg-emerald-400 px-4 py-2 text-sm font-semibold text-emerald-950 hover:bg-emerald-300 transition'
                   : 'rounded-full bg-emerald-500 px-4 py-2 text-sm font-semibold text-white hover:bg-emerald-600 transition'
               }
@@ -72,7 +73,7 @@ export default function LandingPage() {
           ) : (
             <button
               className={
-                currentTheme === 'dark'
+                effectiveTheme === 'dark'
                   ? 'rounded-full border border-white/20 bg-white/5 px-4 py-2 text-sm text-white/80 backdrop-blur-md hover:bg-white/10 transition'
                   : 'rounded-full border border-slate-900/15 bg-white/70 px-4 py-2 text-sm text-slate-800 backdrop-blur-md hover:bg-white transition'
               }
