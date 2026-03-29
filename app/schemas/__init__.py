@@ -7,6 +7,12 @@ from app.schemas.journal import (
     JournalQuestionOut,
 )
 from app.schemas.profile import UserProfileOut, UserProfileUpdate, UserProfileUpdateOut
+from app.schemas.chat import (
+    ChatMessageCreate,
+    ChatReply,
+    ChatMessageOut,
+    ChatSessionOut,
+)
 
 __all__ = [
     "TokenResponse",
@@ -20,4 +26,8 @@ __all__ = [
     "JournalListOut",
     "UserProfileOut",
     "UserProfileUpdate",
+    "ChatMessageCreate",
+    "ChatReply",
+    "ChatMessageOut",
+    "ChatSessionOut",
 ]
