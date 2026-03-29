@@ -18,6 +18,18 @@ async def create_journal_entry(
     user: models.User = Depends(get_current_user),
     session: AsyncSession = Depends(get_session),
 ):
+    # prevent duplicate entry per user per date
+    existing = await session.execute(
+        select(models.DailyJournalEntry).where(
+            models.DailyJournalEntry.user_id == user.id,
+            models.DailyJournalEntry.date == payload.date,
+        )
+    )
+    if existing.scalar_one_or_none():
+        return schemas.JournalCreateOut(
+            message="Entry for this date already exists."
+        )
+
     try:
         entry = models.DailyJournalEntry(
             user_id=user.id,
@@ -101,4 +113,30 @@ async def list_journals(
             for e in items
         ],
         total=total,
+    )
+
+
+@router.get("/by-date", response_model=schemas.JournalOut | None)
+async def get_journal_by_date(
+    date: dt.date,
+    user: models.User = Depends(get_current_user),
+    session: AsyncSession = Depends(get_session),
+):
+    result = await session.execute(
+        select(models.DailyJournalEntry)
+        .where(models.DailyJournalEntry.user_id == user.id)
+        .where(models.DailyJournalEntry.date == date)
+        .order_by(models.DailyJournalEntry.created_at.desc())
+        .limit(1)
+    )
+    entry = result.scalar_one_or_none()
+    if not entry:
+        return None
+    return schemas.JournalOut(
+        id=entry.id,
+        date=entry.date,
+        free_text=entry.free_text,
+        insights=entry.insights or [],
+        micro_actions=entry.micro_actions or [],
+        created_at=entry.created_at,
     )
