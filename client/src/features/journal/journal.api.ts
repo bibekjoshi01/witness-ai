@@ -3,6 +3,7 @@ import {
   ICreateJournalRequest,
   ICreateJournalResponse,
   IGeneratedQuestion,
+  IJournalByDateResponse,
   IListJournalsParams,
   IListJournalsResponse,
 } from './journal.types'
@@ -39,7 +40,27 @@ export const journalAPISlice = rootAPI.injectEndpoints({
           : [{ type: 'Journal' as const, id: 'LIST' }],
       keepUnusedDataFor: 60,
     }),
+    getJournalByDate: builder.query<IJournalByDateResponse, string>({
+      query: (date) => ({
+        url: '/journal/by-date',
+        method: 'GET',
+        params: { date },
+      }),
+      providesTags: (result) =>
+        result
+          ? [
+              { type: 'Journal' as const, id: result.id },
+              { type: 'Journal' as const, id: 'LIST' },
+            ]
+          : [{ type: 'Journal' as const, id: 'LIST' }],
+      keepUnusedDataFor: 30,
+    }),
   }),
 })
 
-export const { useCreateJournalMutation, useGenerateQuestionsQuery, useListJournalsQuery } = journalAPISlice
+export const {
+  useCreateJournalMutation,
+  useGenerateQuestionsQuery,
+  useGetJournalByDateQuery,
+  useListJournalsQuery,
+} = journalAPISlice

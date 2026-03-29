@@ -8,10 +8,18 @@
   color-scheme: light;
 }
 
+.dark {
+  color-scheme: dark;
+}
+
 body {
-  @apply bg-mist text-ink font-body;
+  @apply bg-mist text-ink font-body dark:bg-slate-950 dark:text-slate-100;
   background-image: theme('backgroundImage.soft-gradient');
   min-height: 100vh;
+}
+
+.dark body {
+  background-image: none;
 }
 
 .card {

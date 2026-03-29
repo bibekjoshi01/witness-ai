@@ -137,7 +137,7 @@ function HeroGeometric({
       </div>
 
       <div className="relative z-10 container mx-auto px-4 md:px-6">
-        <div className="max-w-3xl mx-auto text-center">
+        <div className="max-w-5xl mx-auto text-center">
           <motion.div
             custom={0}
             variants={fadeUpVariants}
@@ -193,7 +193,7 @@ function HeroGeometric({
           >
             <p
               className={cn(
-                "text-base sm:text-lg md:text-xl mb-8 leading-relaxed font-light tracking-wide max-w-2xl mx-auto px-4",
+                "text-base sm:text-lg md:text-xl mb-8 leading-relaxed font-light tracking-wide max-w-4xl mx-auto px-4",
                 isDark ? "text-white/55" : "text-slate-600"
               )}
             >

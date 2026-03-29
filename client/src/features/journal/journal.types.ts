@@ -1,8 +1,10 @@
 export interface IQuestionField {
   name: string
-  type: 'select' | 'multi_select' | 'text'
+  type: 'select' | 'multi_select' | 'text' | 'scale'
   label: string
-  options?: string[]
+  options?: string[] | null
+  scale_min?: number | null
+  scale_max?: number | null
 }
 
 export interface IQuestionSchema {
@@ -43,11 +45,18 @@ export interface IJournalItem {
   created_at: string
 }
 
+export interface IJournalByDateResponse {
+  id: number
+  date: string
+  free_text: string
+  insights: string[]
+  micro_actions: string[]
+  created_at: string
+}
+
 export interface IListJournalsParams {
   start_date?: string
   end_date?: string
-  limit?: number
-  offset?: number
   entry_id?: number
 }
 

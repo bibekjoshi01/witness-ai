@@ -22,8 +22,8 @@ export default function LandingPage() {
     <div className="relative">
       <HeroGeometric
         badge="Witness AI"
-        title1="Structured Reflection"
-        title2="Without Stigma"
+        title1="See What Your"
+        title2="Mind Has Been Telling You"
         description="A calm way to understand your patterns, one daily check-in at a time."
         theme={theme}
       />

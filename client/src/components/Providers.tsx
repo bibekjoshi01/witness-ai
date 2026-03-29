@@ -6,6 +6,7 @@ import Cookies from 'js-cookie'
 import { PUBLIC_ACCESS_TOKEN } from '@/constants/public/tokens'
 import { AppDispatch } from '@/lib/redux/store'
 import { hydrateSession } from '@/app/(auth)/redux/auth.slice'
+import { ThemeProvider } from '@/lib/providers/theme-provider'
 
 function AuthHydrator() {
   const dispatch = useDispatch<AppDispatch>()
@@ -20,9 +21,11 @@ function AuthHydrator() {
 
 export function Providers({ children }: PropsWithChildren) {
   return (
-    <Provider store={store}>
-      <AuthHydrator />
-      {children}
-    </Provider>
+    <ThemeProvider>
+      <Provider store={store}>
+        <AuthHydrator />
+        {children}
+      </Provider>
+    </ThemeProvider>
   )
 }
